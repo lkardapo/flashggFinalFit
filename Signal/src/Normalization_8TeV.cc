@@ -48,6 +48,13 @@ int Normalization_8TeV::Init(int sqrtS){
         XSectionMap_testBBH[mH]	= valXSbbH;
         XSectionMap_testTHQ[mH]	= 0.074;
         XSectionMap_testTHW[mH]	= 0.015;
+
+        //TRILINEAR: cross-section in particular gen-bin as fraction of ttH
+        XSectionMap_ttHgen0[mH] = 0.488*valXSttH;
+        XSectionMap_ttHgen1[mH] = 0.366*valXSttH;
+        XSectionMap_ttHgen2[mH] = 0.100*valXSttH;
+        XSectionMap_ttHgen3[mH] = 0.030*valXSttH;
+        XSectionMap_ttHgen4[mH] = 0.009*valXSttH;
 	
     }
 
@@ -184,7 +191,17 @@ TGraph * Normalization_8TeV::GetSigmaGraph(TString process)
 		XSectionMap = &XSectionMap_testTHQ;
 	} else if ( process.Contains("testTHW") ) {
 		XSectionMap = &XSectionMap_testTHW;
-	} else {
+        } else if ( process.Contains("ttHgen0") ) {
+                XSectionMap = &XSectionMap_ttHgen0;
+	} else if ( process.Contains("ttHgen1") ) {
+                XSectionMap = &XSectionMap_ttHgen1;
+	} else if ( process.Contains("ttHgen2") ) {
+                XSectionMap = &XSectionMap_ttHgen2;
+	} else if ( process.Contains("ttHgen3") ) {
+                XSectionMap = &XSectionMap_ttHgen3;
+	} else if ( process.Contains("ttHgen4") ) {
+                XSectionMap = &XSectionMap_ttHgen4;
+	}    else {
 		std::cout << "[WARNING] Warning ggh, vbf, wh, zh, wzh, tth or grav or STXS proc not found in histname!!!!" << std::endl;
 		//exit(1);
 	}
@@ -266,6 +283,16 @@ double Normalization_8TeV::GetXsection(double mass, TString HistName) {
 		XSectionMap = &XSectionMap_testTHQ;
 	} else if (HistName.Contains("testTHW")) {
 		XSectionMap = &XSectionMap_testTHW;
+	} else if (HistName.Contains("ttHgen0") ) {
+                XSectionMap = &XSectionMap_ttHgen0;
+	} else if (HistName.Contains("ttHgen1") ) {
+                XSectionMap = &XSectionMap_ttHgen1;
+	} else if (HistName.Contains("ttHgen2") ) {
+                XSectionMap = &XSectionMap_ttHgen2;
+	} else if (HistName.Contains("ttHgen3") ) {
+                XSectionMap = &XSectionMap_ttHgen3;
+	} else if (HistName.Contains("ttHgen4") ) {
+                XSectionMap = &XSectionMap_ttHgen4;
 	} else {
 		std::cout << "[WARNING] Warning ggh, vbf, wh, zh, wzh, tth or grav or STXS proc not found in " << HistName << std::endl;
 		//exit(1);

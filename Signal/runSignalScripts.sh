@@ -3,15 +3,20 @@
 #bash variables
 FILE="";
 EXT="auto"; #extensiom for all folders and files created by this script
-PROCS="ggh"
-CATS="UntaggedTag_0,UntaggedTag_1,UntaggedTag_2,UntaggedTag_3,UntaggedTag_4,VBFTag_0,VBFTag_1,VBFTag_2"
-SCALES="HighR9EE,LowR9EE,HighR9EB,LowR9EB"
+PROCS="ttHgen0,ttHgen1,ttHgen2,ttHgen3,ttHgen4"
+CATS="reco0,reco1,reco2,reco3,reco4"
+#SCALES="HighR9EE,LowR9EE,HighR9EB,LowR9EB"
+SCALES=""
 #SCALESCORR="MaterialCentral,MaterialForward,FNUFEE,FNUFEB,ShowerShapeHighR9EE,ShowerShapeHighR9EB,ShowerShapeLowR9EE,ShowerShapeLowR9EB"
-SCALESCORR="MaterialCentral,MaterialForward"
+#SCALESCORR="MaterialCentral,MaterialForward"
+SCALESCORR=""
 #SCALESGLOBAL="NonLinearity:0:2.6"
-SCALESGLOBAL="NonLinearity,Geant4,LightYield,Absolute"
-SMEARS="HighR9EE,LowR9EE,HighR9EB,LowR9EB" #DRY RUN
+#SCALESGLOBAL="NonLinearity,Geant4,LightYield,Absolute"
+SCALESGLOBAL=""
+#SMEARS="HighR9EE,LowR9EE,HighR9EB,LowR9EB" #DRY RUN
+SMEARS=""
 MASSLIST="120,125,130"
+#MASSLIST=""
 FTESTONLY=0
 CALCPHOSYSTONLY=0
 SIMULATENOUSMASSPOINTFITTING=0
