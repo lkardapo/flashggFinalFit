@@ -1,0 +1,331 @@
+#proc cat nGausRV nGausWV
+THQgen0 reco0_BDTa 2 1
+THQgen0 reco0_BDTb 2 1
+THQgen0 reco2_BDTa -1 1 THQgen2 reco2_BDTa
+THQgen0 reco2_BDTb -1 1 THQgen2 reco2_BDTb
+THQgen0 reco3_BDTa -1 1 THQgen3 reco3_BDTa
+THQgen0 reco3_BDTb -1 1 THQgen3 reco3_BDTb
+THQgen0 reco4_BDTa -1 1 THQgen4 reco4_BDTa
+THQgen0 reco4_BDTb -1 1 THQgen4 reco4_BDTb
+THQgen0 reco5 -1 1 THQgen5 reco5
+THQgen0 reco1_BDTa 1 1
+THQgen0 reco1_BDTb 1 1
+THQgen2 reco0_BDTa -1 1 THQgen0 reco0_BDTa
+THQgen2 reco0_BDTb -1 1 THQgen0 reco0_BDTb
+THQgen2 reco2_BDTa 4 1
+THQgen2 reco2_BDTb 4 1
+THQgen2 reco3_BDTa 2 1
+THQgen2 reco3_BDTb 2 1
+THQgen2 reco4_BDTa -1 1 THQgen4 reco4_BDTa
+THQgen2 reco4_BDTb -1 1 THQgen4 reco4_BDTb
+THQgen2 reco5 -1 1 THQgen5 reco5
+THQgen2 reco1_BDTa 2 1
+THQgen2 reco1_BDTb 2 1
+THQgen3 reco0_BDTa -1 1 THQgen0 reco0_BDTa
+THQgen3 reco0_BDTb -1 1 THQgen0 reco0_BDTb
+THQgen3 reco2_BDTa 3 1
+THQgen3 reco2_BDTb 2 1
+THQgen3 reco3_BDTa 4 1
+THQgen3 reco3_BDTb 4 1
+THQgen3 reco4_BDTa 2 1
+THQgen3 reco4_BDTb 2 1
+THQgen3 reco5 -1 1 THQgen5 reco5
+THQgen3 reco1_BDTa -1 1 THQgen1 reco1_BDTa
+THQgen3 reco1_BDTb -1 1 THQgen1 reco1_BDTb
+THQgen4 reco0_BDTa -1 1 THQgen0 reco0_BDTa
+THQgen4 reco0_BDTb -1 1 THQgen0 reco0_BDTb
+THQgen4 reco2_BDTa -1 1 THQgen2 reco2_BDTa
+THQgen4 reco2_BDTb -1 1 THQgen2 reco2_BDTb
+THQgen4 reco3_BDTa 1 1
+THQgen4 reco3_BDTb 1 1
+THQgen4 reco4_BDTa 4 1
+THQgen4 reco4_BDTb 4 1
+THQgen4 reco5 2 1
+THQgen4 reco1_BDTa -1 1 THQgen1 reco1_BDTa
+THQgen4 reco1_BDTb -1 1 THQgen1 reco1_BDTb
+THQgen5 reco0_BDTa -1 1 THQgen0 reco0_BDTa
+THQgen5 reco0_BDTb -1 1 THQgen0 reco0_BDTb
+THQgen5 reco2_BDTa -1 1 THQgen2 reco2_BDTa
+THQgen5 reco2_BDTb -1 1 THQgen2 reco2_BDTb
+THQgen5 reco3_BDTa -1 1 THQgen3 reco3_BDTa
+THQgen5 reco3_BDTb -1 1 THQgen3 reco3_BDTb
+THQgen5 reco4_BDTa 1 1
+THQgen5 reco4_BDTb -1 1 THQgen4 reco4_BDTb
+THQgen5 reco5 3 1
+THQgen5 reco1_BDTa -1 1 THQgen1 reco1_BDTa
+THQgen5 reco1_BDTb -1 1 THQgen1 reco1_BDTb
+THQgen1 reco0_BDTa 2 1
+THQgen1 reco0_BDTb 2 1
+THQgen1 reco2_BDTa 2 1
+THQgen1 reco2_BDTb -1 1 THQgen2 reco2_BDTb
+THQgen1 reco3_BDTa -1 1 THQgen3 reco3_BDTa
+THQgen1 reco3_BDTb -1 1 THQgen3 reco3_BDTb
+THQgen1 reco4_BDTa -1 1 THQgen4 reco4_BDTa
+THQgen1 reco4_BDTb -1 1 THQgen4 reco4_BDTb
+THQgen1 reco5 -1 1 THQgen5 reco5
+THQgen1 reco1_BDTa 4 1
+THQgen1 reco1_BDTb 4 1
+THWgen0 reco0_BDTa 2 1
+THWgen0 reco0_BDTb 2 1
+THWgen0 reco2_BDTa -1 1 THWgen2 reco2_BDTa
+THWgen0 reco2_BDTb -1 1 THWgen2 reco2_BDTb
+THWgen0 reco3_BDTa -1 1 THWgen3 reco3_BDTa
+THWgen0 reco3_BDTb -1 1 THWgen3 reco3_BDTb
+THWgen0 reco4_BDTa -1 1 THWgen4 reco4_BDTa
+THWgen0 reco4_BDTb -1 1 THWgen4 reco4_BDTb
+THWgen0 reco5 -1 1 THWgen5 reco5
+THWgen0 reco1_BDTa 2 1
+THWgen0 reco1_BDTb 3 1
+THWgen2 reco0_BDTa -1 1 THWgen0 reco0_BDTa
+THWgen2 reco0_BDTb -1 1 THWgen0 reco0_BDTb
+THWgen2 reco2_BDTa 4 1
+THWgen2 reco2_BDTb 4 1
+THWgen2 reco3_BDTa 2 1
+THWgen2 reco3_BDTb 2 1
+THWgen2 reco4_BDTa -1 1 THWgen4 reco4_BDTa
+THWgen2 reco4_BDTb -1 1 THWgen4 reco4_BDTb
+THWgen2 reco5 -1 1 THWgen5 reco5
+THWgen2 reco1_BDTa 2 1
+THWgen2 reco1_BDTb 2 1
+THWgen3 reco0_BDTa -1 1 THWgen0 reco0_BDTa
+THWgen3 reco0_BDTb -1 1 THWgen0 reco0_BDTb
+THWgen3 reco2_BDTa 3 1
+THWgen3 reco2_BDTb 2 1
+THWgen3 reco3_BDTa 4 1
+THWgen3 reco3_BDTb 4 1
+THWgen3 reco4_BDTa 2 1
+THWgen3 reco4_BDTb 2 1
+THWgen3 reco5 -1 1 THWgen5 reco5
+THWgen3 reco1_BDTa -1 1 THWgen1 reco1_BDTa
+THWgen3 reco1_BDTb -1 1 THWgen1 reco1_BDTb
+THWgen4 reco0_BDTa -1 1 THWgen0 reco0_BDTa
+THWgen4 reco0_BDTb -1 1 THWgen0 reco0_BDTb
+THWgen4 reco2_BDTa -1 1 THWgen2 reco2_BDTa
+THWgen4 reco2_BDTb -1 1 THWgen2 reco2_BDTb
+THWgen4 reco3_BDTa 1 1
+THWgen4 reco3_BDTb 1 1
+THWgen4 reco4_BDTa 4 1
+THWgen4 reco4_BDTb 4 1
+THWgen4 reco5 2 1
+THWgen4 reco1_BDTa -1 1 THWgen1 reco1_BDTa
+THWgen4 reco1_BDTb -1 1 THWgen1 reco1_BDTb
+THWgen5 reco0_BDTa -1 1 THWgen0 reco0_BDTa
+THWgen5 reco0_BDTb -1 1 THWgen0 reco0_BDTb
+THWgen5 reco2_BDTa -1 1 THWgen2 reco2_BDTa
+THWgen5 reco2_BDTb -1 1 THWgen2 reco2_BDTb
+THWgen5 reco3_BDTa -1 1 THWgen3 reco3_BDTa
+THWgen5 reco3_BDTb -1 1 THWgen3 reco3_BDTb
+THWgen5 reco4_BDTa 1 1
+THWgen5 reco4_BDTb 1 1
+THWgen5 reco5 3 1
+THWgen5 reco1_BDTa -1 1 THWgen1 reco1_BDTa
+THWgen5 reco1_BDTb -1 1 THWgen1 reco1_BDTb
+THWgen1 reco0_BDTa 2 1
+THWgen1 reco0_BDTb 2 1
+THWgen1 reco2_BDTa 3 1
+THWgen1 reco2_BDTb 2 1
+THWgen1 reco3_BDTa -1 1 THWgen3 reco3_BDTa
+THWgen1 reco3_BDTb -1 1 THWgen3 reco3_BDTb
+THWgen1 reco4_BDTa -1 1 THWgen4 reco4_BDTa
+THWgen1 reco4_BDTb -1 1 THWgen4 reco4_BDTb
+THWgen1 reco5 -1 1 THWgen5 reco5
+THWgen1 reco1_BDTa 4 1
+THWgen1 reco1_BDTb 4 1
+VHgen0 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+VHgen0 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+VHgen0 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+VHgen0 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+VHgen0 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+VHgen0 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+VHgen0 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+VHgen0 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+VHgen0 reco5 -1 1 ttHgen5 reco5
+VHgen0 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+VHgen0 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+VHgen2 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+VHgen2 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+VHgen2 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+VHgen2 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+VHgen2 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+VHgen2 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+VHgen2 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+VHgen2 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+VHgen2 reco5 -1 1 ttHgen5 reco5
+VHgen2 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+VHgen2 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+VHgen3 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+VHgen3 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+VHgen3 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+VHgen3 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+VHgen3 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+VHgen3 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+VHgen3 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+VHgen3 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+VHgen3 reco5 -1 1 ttHgen5 reco5
+VHgen3 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+VHgen3 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+VHgen4 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+VHgen4 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+VHgen4 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+VHgen4 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+VHgen4 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+VHgen4 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+VHgen4 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+VHgen4 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+VHgen4 reco5 -1 1 ttHgen5 reco5
+VHgen4 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+VHgen4 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+VHgen5 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+VHgen5 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+VHgen5 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+VHgen5 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+VHgen5 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+VHgen5 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+VHgen5 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+VHgen5 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+VHgen5 reco5 -1 1 ttHgen5 reco5
+VHgen5 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+VHgen5 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+VHgen1 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+VHgen1 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+VHgen1 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+VHgen1 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+VHgen1 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+VHgen1 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+VHgen1 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+VHgen1 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+VHgen1 reco5 -1 1 ttHgen5 reco5
+VHgen1 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+VHgen1 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ggHgen0 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ggHgen0 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ggHgen0 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ggHgen0 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ggHgen0 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ggHgen0 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ggHgen0 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ggHgen0 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ggHgen0 reco5 -1 1 ttHgen5 reco5
+ggHgen0 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ggHgen0 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ggHgen2 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ggHgen2 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ggHgen2 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ggHgen2 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ggHgen2 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ggHgen2 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ggHgen2 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ggHgen2 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ggHgen2 reco5 -1 1 ttHgen5 reco5
+ggHgen2 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ggHgen2 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ggHgen3 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ggHgen3 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ggHgen3 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ggHgen3 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ggHgen3 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ggHgen3 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ggHgen3 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ggHgen3 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ggHgen3 reco5 -1 1 ttHgen5 reco5
+ggHgen3 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ggHgen3 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ggHgen4 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ggHgen4 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ggHgen4 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ggHgen4 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ggHgen4 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ggHgen4 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ggHgen4 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ggHgen4 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ggHgen4 reco5 -1 1 ttHgen5 reco5
+ggHgen4 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ggHgen4 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ggHgen5 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ggHgen5 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ggHgen5 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ggHgen5 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ggHgen5 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ggHgen5 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ggHgen5 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ggHgen5 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ggHgen5 reco5 -1 1 ttHgen5 reco5
+ggHgen5 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ggHgen5 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ggHgen1 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ggHgen1 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ggHgen1 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ggHgen1 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ggHgen1 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ggHgen1 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ggHgen1 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ggHgen1 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ggHgen1 reco5 -1 1 ttHgen5 reco5
+ggHgen1 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ggHgen1 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ttHgen0 reco0_BDTa 2 1
+ttHgen0 reco0_BDTb 2 1
+ttHgen0 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ttHgen0 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ttHgen0 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ttHgen0 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ttHgen0 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ttHgen0 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ttHgen0 reco5 -1 1 ttHgen5 reco5
+ttHgen0 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ttHgen0 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ttHgen2 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ttHgen2 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ttHgen2 reco2_BDTa 2 1
+ttHgen2 reco2_BDTb 2 1
+ttHgen2 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ttHgen2 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ttHgen2 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ttHgen2 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ttHgen2 reco5 -1 1 ttHgen5 reco5
+ttHgen2 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ttHgen2 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ttHgen3 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ttHgen3 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ttHgen3 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ttHgen3 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ttHgen3 reco3_BDTa 2 1
+ttHgen3 reco3_BDTb 2 1
+ttHgen3 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ttHgen3 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ttHgen3 reco5 -1 1 ttHgen5 reco5
+ttHgen3 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ttHgen3 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ttHgen4 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ttHgen4 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ttHgen4 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ttHgen4 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ttHgen4 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ttHgen4 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ttHgen4 reco4_BDTa 2 1
+ttHgen4 reco4_BDTb 1 1
+ttHgen4 reco5 -1 1 ttHgen5 reco5
+ttHgen4 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ttHgen4 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ttHgen5 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ttHgen5 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ttHgen5 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ttHgen5 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ttHgen5 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ttHgen5 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ttHgen5 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ttHgen5 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ttHgen5 reco5 3 1
+ttHgen5 reco1_BDTa -1 1 ttHgen1 reco1_BDTa
+ttHgen5 reco1_BDTb -1 1 ttHgen1 reco1_BDTb
+ttHgen1 reco0_BDTa -1 1 ttHgen0 reco0_BDTa
+ttHgen1 reco0_BDTb -1 1 ttHgen0 reco0_BDTb
+ttHgen1 reco2_BDTa -1 1 ttHgen2 reco2_BDTa
+ttHgen1 reco2_BDTb -1 1 ttHgen2 reco2_BDTb
+ttHgen1 reco3_BDTa -1 1 ttHgen3 reco3_BDTa
+ttHgen1 reco3_BDTb -1 1 ttHgen3 reco3_BDTb
+ttHgen1 reco4_BDTa -1 1 ttHgen4 reco4_BDTa
+ttHgen1 reco4_BDTb -1 1 ttHgen4 reco4_BDTb
+ttHgen1 reco5 -1 1 ttHgen5 reco5
+ttHgen1 reco1_BDTa 1 1
+ttHgen1 reco1_BDTb 1 1

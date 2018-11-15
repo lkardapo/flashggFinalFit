@@ -114,6 +114,9 @@ specOpts.add_option("--kgamLow",type="float",default=None)
 specOpts.add_option("--kgamHigh",type="float",default=None)
 specOpts.add_option("--kgluLow",type="float",default=None)
 specOpts.add_option("--kgluHigh",type="float",default=None)
+specOpts.add_option("--klambdaLow",type="float",default=None)
+specOpts.add_option("--klambdaHigh",type="float",default=None)
+specOpts.add_option("--THU_scaler",type="float",default=None)
 specOpts.add_option("--wspace",type="str",default=None)
 specOpts.add_option("--jobs",type="int",default=None)
 specOpts.add_option("--pointsperjob",type="int",default=1)
@@ -139,7 +142,7 @@ if not os.path.exists(os.path.expandvars('$CMSSW_BASE/bin/$SCRAM_ARCH/combineCar
   sys.exit('ERROR - CombinedLimit package must be installed')
 
 cwd = os.getcwd()
-allowedMethods = ['Asymptotic','AsymptoticGrid','ProfileLikelihood','ProfileLikelihoodStat','ProfileLikelihoodTheo','ChannelCompatibilityCheck','MultiPdfChannelCompatibility','MHScan','MHScanStat','MHScanTheo','MHScanJustThisSyst','MHScanNoGlob','MuScan','MuScanStat','MuScanTheo','MuScanMHProf','RVScan','RFScan','RVRFScan','PerProcessChannelCompatibility','PerProcessChannelCompatibilityStat','PerProcessChannelCompatibilityTheo','PerProcessMu','PerTagChannelCompatibility','MuMHScan','GenerateOnly', 'RProcScan', 'RTopoScan', 'RBinScan', 'MuVsMHScan','CVCFScan','KGluKGamScan','MultiPdfMuHatvsMH']
+allowedMethods = ['Asymptotic','AsymptoticGrid','ProfileLikelihood','ProfileLikelihoodStat','ProfileLikelihoodTheo','ChannelCompatibilityCheck','MultiPdfChannelCompatibility','MHScan','MHScanStat','MHScanTheo','MHScanJustThisSyst','MHScanNoGlob','MuScan','MuScanStat','MuScanTheo','MuScanMHProf','RVScan','RFScan','RVRFScan','PerProcessChannelCompatibility','PerProcessChannelCompatibilityStat','PerProcessChannelCompatibilityTheo','PerProcessMu','PerTagChannelCompatibility','MuMHScan','GenerateOnly', 'RProcScan', 'RTopoScan', 'RBinScan', 'MuVsMHScan','CVCFScan','KGluKGamScan','MultiPdfMuHatvsMH','KLambdaScan','KLambdaScan_ggHOnly','KLambdaScan_tOnly']
 
 
 if opts.parallel:
@@ -707,7 +710,10 @@ def writeMultiDimFit(method=None,wsOnly=False):
     "RTopoScan"  : "-P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel %s %s" % ( catsMap, profMH ),
     "RBinScan"  : "-P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel %s %s" % ( catsMap, profMH ),
                 "RDiffXsScan"  : "-P %s.AnalysisScripts.UnfoldModel:unfoldModel %s" % ( globe_name, profMH ),
-    "RProcScan"  : "-P HiggsAnalysis.CombinedLimit.PhysicsModel:floatingXSHiggs --PO modes=ggH,qqH,VH,ttH --PO higgsMassRange=124,126 --PO ggHRange=-1:10 --PO qqHRange=-2:20 --PO VHRange=-2:20 --PO ttHRange=-2:20 "
+    "RProcScan"  : "-P HiggsAnalysis.CombinedLimit.PhysicsModel:floatingXSHiggs --PO modes=ggH,qqH,VH,ttH --PO higgsMassRange=124,126 --PO ggHRange=-1:10 --PO qqHRange=-2:20 --PO VHRange=-2:20 --PO ttHRange=-2:20 ",
+    "KLambdaScan" : "-P HiggsAnalysis.CombinedLimit.TrilinearCouplingModel:trilinearHiggs",
+    "KLambdaScan_ggHOnly" : "-P HiggsAnalysis.CombinedLimit.TrilinearCouplingModel:trilinearHiggs_ggHOnly",
+    "KLambdaScan_tOnly" : "-P HiggsAnalysis.CombinedLimit.TrilinearCouplingModel:trilinearHiggs_tOnly"
   }
 
         setpois = {
@@ -747,6 +753,9 @@ def writeMultiDimFit(method=None,wsOnly=False):
             "RTopoScan": [ "r_untag","r_qqHtag","r_VHtag","r_ttHtag" ],
             "RBinScan": [ "r_Bin%d" % i for i in range(opts.nBins) ],
             "RDiffXsScan": [ "r_Bin%d" % i for i in range(opts.nBins) ],
+            "KLambdaScan": ["k_lambda"],
+            "KLambdaScan_ggHOnly": ["k_lambda"],
+            "KLambdaScan_tOnly": ["k_lambda"]
             }
   
         combine_args = {
@@ -778,6 +787,9 @@ def writeMultiDimFit(method=None,wsOnly=False):
     "RTopoScan"  : "--floatOtherPOIs=1 -P %s"%(opts.poix), # need to add option to run specific topologic categories
     "RBinScan"  : "--floatOtherPOIs=1 -P %s"%(opts.poix), # need to add option to run specific topologic categories
     "RDiffXsScan"  : "--floatOtherPOIs=1 -P %s"%(opts.poix), # need to add option to run specific topologic categories
+    "KLambdaScan"  : "-P k_lambda", # need to add option to run specific topologic categories
+    "KLambdaScan_ggHOnly"  : "-P k_lambda", # need to add option to run specific topologic categories
+    "KLambdaScan_tOnly"  : "-P k_lambda" # need to add option to run specific topologic categories
     }
         par_ranges = {}
         #par_ranges["PerProcessChannelCompatibility"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_WH=%4.2f,%4.2f:r_ZH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f"%(-5.0,5.0,-5.0,5.0,-5.0,5.0,-5.0,5.0,-5.0,5.0)
@@ -793,10 +805,10 @@ def writeMultiDimFit(method=None,wsOnly=False):
           elif "VH" in r_tag: perTagChCompPOIRanges=perTagChCompPOIRanges+ "%s=0.0,6.0:"%r_tag
           else: perTagChCompPOIRanges=perTagChCompPOIRanges+ "%s=0.0,10.0:"%r_tag
         perTagChCompPOIRanges = perTagChCompPOIRanges[:-1] #remove last character, an extra ":"
-        if opts.expected and not opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_VH=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,2.0,-1.0,3.0)
-        elif not opts.expected and not opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_VH=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,4.0,0.0,4.0)
-        elif opts.expected and opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_QQ2HLNU=%4.2f,%4.2f:r_QQ2HLL=%4.2f,%4.2f:r_VH2HQQ=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,2.0,-2.0,4.0,-2.0,4.0,-2.0,4.0)
-        elif not opts.expected and opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_QQ2HLNU=%4.2f,%4.2f:r_QQ2HLL=%4.2f,%4.2f:r_VH2HQQ=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,4.0,0.,6.0,0.,6.0,0.,8.0)
+        #if opts.expected and not opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_VH=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,2.0,-1.0,3.0)
+        #elif not opts.expected and not opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_VH=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,4.0,0.0,4.0)
+        #elif opts.expected and opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_QQ2HLNU=%4.2f,%4.2f:r_QQ2HLL=%4.2f,%4.2f:r_VH2HQQ=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,2.0,-2.0,4.0,-2.0,4.0,-2.0,4.0)
+        #elif not opts.expected and opts.doSTXS: par_ranges["PerProcessMu"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f:r_QQ2HLNU=%4.2f,%4.2f:r_QQ2HLL=%4.2f,%4.2f:r_VH2HQQ=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,4.0,0.,6.0,0.,6.0,0.,8.0)
         par_ranges["PerTagChannelCompatibility"]  = perTagChCompPOIRanges 
         par_ranges["PerProcessChannelCompatibility"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_VH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,2.0,0.0,2.0)
         par_ranges["PerProcessChannelCompatibilityStat"]  = "r_ggH=%4.2f,%4.2f:r_qqH=%4.2f,%4.2f:r_VH=%4.2f,%4.2f:r_ttH=%4.2f,%4.2f"%(0.0,2.0,0.0,2.0,0.0,2.0,0.0,2.0)
@@ -834,6 +846,11 @@ def writeMultiDimFit(method=None,wsOnly=False):
           par_ranges["MHScanNoGlob"]= "MH=%6.2f,%6.2f"%(opts.mhLow,opts.mhHigh)
         if opts.muLow!=None and opts.muHigh!=None and opts.mhLow!=None and opts.mhHigh!=None:
           par_ranges["MuMHScan"]    = "r=%4.2f,%4.2f:MH=%6.2f,%6.2f"%(opts.muLow,opts.muHigh,opts.mhLow,opts.mhHigh)
+        if opts.klambdaLow!=None and opts.klambdaHigh!=None:
+          par_ranges["KLambdaScan"] = "k_lambda=%4.2f,%4.2f"%(opts.klambdaLow,opts.klambdaHigh)
+          par_ranges["KLambdaScan_ggHOnly"] = "k_lambda=%4.2f,%4.2f"%(opts.klambdaLow,opts.klambdaHigh)
+          par_ranges["KLambdaScan_tOnly"] = "k_lambda=%4.2f,%4.2f"%(opts.klambdaLow,opts.klambdaHigh)
+
         # create specialised MultiDimFit workspace
         backupcard = opts.datacard
         if method=='MHScanStat':
@@ -861,6 +878,9 @@ def writeMultiDimFit(method=None,wsOnly=False):
           print 'Creating workspace for %s...'%method
           exec_line = 'text2workspace.py %s -o %s %s -L $CMSSW_BASE/lib/$SCRAM_ARCH/libHiggsAnalysisGBRLikelihood.so'%(os.path.abspath(opts.datacard),os.path.abspath(opts.datacard).replace('.txt',method+'.root'),ws_args[method]) 
           print exec_line
+          #If scaling ggH uncertainties by factor*0.5
+          if opts.THU_scaler!=None:
+            exec_line += ' --X-rescale-nuisance \'THU_*\' %4.2f'%(opts.THU_scaler) 
           if opts.postFit:
                           exec_line += ' && combine -m %.2f -M MultiDimFit --saveWorkspace -n %s_postFit %s -L $CMSSW_BASE/lib/$SCRAM_ARCH/libHiggsAnalysisGBRLikelihood.so' % ( opts.mh, datacardname+method, os.path.abspath(opts.datacard).replace('.txt',method+'.root') )
                           exec_line += ' && cp higgsCombine%s_postFit.MultiDimFit.mH%.2f.root %s' % ( datacardname+method, opts.mh, os.path.abspath(opts.datacard).replace('.txt',method+'_postFit.root') )
@@ -1044,6 +1064,9 @@ def configure(config_line):
     if option.startswith('kgamHigh='): opts.kgamHigh = float(option.split('=')[1])
     if option.startswith('kgluLow='): opts.kgluLow = float(option.split('=')[1])
     if option.startswith('kgluHigh='): opts.kgluHigh = float(option.split('=')[1])
+    if option.startswith('klambdaLow='): opts.klambdaLow = float(option.split('=')[1])
+    if option.startswith('klambdaHigh='): opts.klambdaHigh = float(option.split('=')[1])
+    if option.startswith('THU_scaler='): opts.THU_scaler = float(option.split('=')[1])
     if option.startswith('wspace='): opts.wspace = str(option.split('=')[1])
     if option.startswith('catRanges='): opts.catRanges = str(option.split('=')[1])
     if option.startswith('nBins='): opts.nBins = int(option.split('=')[1])

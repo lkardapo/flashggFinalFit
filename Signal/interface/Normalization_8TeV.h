@@ -70,6 +70,31 @@ class Normalization_8TeV {
         std::map<double,double> XSectionMap_ttHgen2;
         std::map<double,double> XSectionMap_ttHgen3;
         std::map<double,double> XSectionMap_ttHgen4;
+        std::map<double,double> XSectionMap_ttHgen5;
+        std::map<double,double> XSectionMap_ggHgen0;
+        std::map<double,double> XSectionMap_ggHgen1;
+        std::map<double,double> XSectionMap_ggHgen2;
+        std::map<double,double> XSectionMap_ggHgen3;
+        std::map<double,double> XSectionMap_ggHgen4;
+        std::map<double,double> XSectionMap_ggHgen5;
+        std::map<double,double> XSectionMap_VHgen0;
+        std::map<double,double> XSectionMap_VHgen1;
+        std::map<double,double> XSectionMap_VHgen2;
+        std::map<double,double> XSectionMap_VHgen3;
+        std::map<double,double> XSectionMap_VHgen4;
+        std::map<double,double> XSectionMap_VHgen5;
+        std::map<double,double> XSectionMap_THQgen0;
+        std::map<double,double> XSectionMap_THQgen1;
+        std::map<double,double> XSectionMap_THQgen2;
+        std::map<double,double> XSectionMap_THQgen3;
+        std::map<double,double> XSectionMap_THQgen4;
+        std::map<double,double> XSectionMap_THQgen5;
+        std::map<double,double> XSectionMap_THWgen0;
+        std::map<double,double> XSectionMap_THWgen1;
+        std::map<double,double> XSectionMap_THWgen2;
+        std::map<double,double> XSectionMap_THWgen3;
+        std::map<double,double> XSectionMap_THWgen4;
+        std::map<double,double> XSectionMap_THWgen5;
 
 	std::map<int,std::pair<TString,double > > SignalTypeMap;
 	

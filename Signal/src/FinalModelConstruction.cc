@@ -68,7 +68,7 @@ FinalModelConstruction::FinalModelConstruction( std::vector<int> massList, RooRe
   extraText  = "";  // default extra text is "Preliminary"
   lumi_8TeV  = "19.1 fb^{-1}"; // default is "19.7 fb^{-1}"
   lumi_7TeV  = "4.9 fb^{-1}";  // default is "5.1 fb^{-1}"
-  lumi_sqrtS = "13 TeV";       // used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
+  lumi_sqrtS = "14 TeV";       // used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
   if (massList.size()==0){
     allMH_ = getAllMH();
   } else {
@@ -79,6 +79,7 @@ FinalModelConstruction::FinalModelConstruction( std::vector<int> massList, RooRe
 	if (sqrts_ ==7) is2011_=1;
 	if (sqrts_ ==8) is2012_=1;
 	if (sqrts_ ==13) isFlashgg_=1;
+	if (sqrts_ ==14) isFlashgg_=1;
   
   // load xs and br info from Normalization_8TeV
   norm = new Normalization_8TeV();

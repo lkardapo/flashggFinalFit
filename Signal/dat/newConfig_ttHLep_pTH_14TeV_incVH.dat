@@ -1,0 +1,181 @@
+#proc cat nGausRV nGausWV
+THQgen0 lep_reco0 2 1
+THQgen0 lep_reco2 -1 1 THQgen2 lep_reco2
+THQgen0 lep_reco3 -1 1 THQgen3 lep_reco3
+THQgen0 lep_reco4 -1 1 THQgen4 lep_reco4
+THQgen0 lep_reco5 -1 1 THQgen5 lep_reco5
+THQgen0 lep_reco1 1 1
+THQgen2 lep_reco0 -1 1 THQgen0 lep_reco0
+THQgen2 lep_reco2 4 1
+THQgen2 lep_reco3 2 1
+THQgen2 lep_reco4 -1 1 THQgen4 lep_reco4
+THQgen2 lep_reco5 -1 1 THQgen5 lep_reco5
+THQgen2 lep_reco1 2 1
+THQgen3 lep_reco0 -1 1 THQgen0 lep_reco0
+THQgen3 lep_reco2 3 1
+THQgen3 lep_reco3 4 1
+THQgen3 lep_reco4 2 1
+THQgen3 lep_reco5 -1 1 THQgen5 lep_reco5
+THQgen3 lep_reco1 -1 1 THQgen1 lep_reco1
+THQgen4 lep_reco0 -1 1 THQgen0 lep_reco0
+THQgen4 lep_reco2 -1 1 THQgen2 lep_reco2
+THQgen4 lep_reco3 1 1
+THQgen4 lep_reco4 4 1
+THQgen4 lep_reco5 2 1
+THQgen4 lep_reco1 -1 1 THQgen1 lep_reco1
+THQgen5 lep_reco0 -1 1 THQgen0 lep_reco0
+THQgen5 lep_reco2 -1 1 THQgen2 lep_reco2
+THQgen5 lep_reco3 -1 1 THQgen3 lep_reco3
+THQgen5 lep_reco4 1 1
+THQgen5 lep_reco5 3 1
+THQgen5 lep_reco1 -1 1 THQgen1 lep_reco1
+THQgen1 lep_reco0 2 1
+THQgen1 lep_reco2 2 1
+THQgen1 lep_reco3 -1 1 THQgen3 lep_reco3
+THQgen1 lep_reco4 -1 1 THQgen4 lep_reco4
+THQgen1 lep_reco5 -1 1 THQgen5 lep_reco5
+THQgen1 lep_reco1 4 1
+THWgen0 lep_reco0 2 1
+THWgen0 lep_reco2 -1 1 THWgen2 lep_reco2
+THWgen0 lep_reco3 -1 1 THWgen3 lep_reco3
+THWgen0 lep_reco4 -1 1 THWgen4 lep_reco4
+THWgen0 lep_reco5 -1 1 THWgen5 lep_reco5
+THWgen0 lep_reco1 2 1
+THWgen2 lep_reco0 -1 1 THWgen0 lep_reco0
+THWgen2 lep_reco2 4 1
+THWgen2 lep_reco3 2 1
+THWgen2 lep_reco4 -1 1 THWgen4 lep_reco4
+THWgen2 lep_reco5 -1 1 THWgen5 lep_reco5
+THWgen2 lep_reco1 2 1
+THWgen3 lep_reco0 -1 1 THWgen0 lep_reco0
+THWgen3 lep_reco2 3 1
+THWgen3 lep_reco3 4 1
+THWgen3 lep_reco4 2 1
+THWgen3 lep_reco5 -1 1 THWgen5 lep_reco5
+THWgen3 lep_reco1 -1 1 THWgen1 lep_reco1
+THWgen4 lep_reco0 -1 1 THWgen0 lep_reco0
+THWgen4 lep_reco2 -1 1 THWgen2 lep_reco2
+THWgen4 lep_reco3 1 1
+THWgen4 lep_reco4 4 1
+THWgen4 lep_reco5 2 1
+THWgen4 lep_reco1 -1 1 THWgen1 lep_reco1
+THWgen5 lep_reco0 -1 1 THWgen0 lep_reco0
+THWgen5 lep_reco2 -1 1 THWgen2 lep_reco2
+THWgen5 lep_reco3 -1 1 THWgen3 lep_reco3
+THWgen5 lep_reco4 1 1
+THWgen5 lep_reco5 3 1
+THWgen5 lep_reco1 -1 1 THWgen1 lep_reco1
+THWgen1 lep_reco0 2 1
+THWgen1 lep_reco2 3 1
+THWgen1 lep_reco3 -1 1 THWgen3 lep_reco3
+THWgen1 lep_reco4 -1 1 THWgen4 lep_reco4
+THWgen1 lep_reco5 -1 1 THWgen5 lep_reco5
+THWgen1 lep_reco1 4 1
+VHgen0 lep_reco0 -1 1 ttHgen0 lep_reco0
+VHgen0 lep_reco2 -1 1 ttHgen2 lep_reco2
+VHgen0 lep_reco3 -1 1 ttHgen3 lep_reco3
+VHgen0 lep_reco4 -1 1 ttHgen4 lep_reco4
+VHgen0 lep_reco5 -1 1 ttHgen5 lep_reco5
+VHgen0 lep_reco1 -1 1 ttHgen1 lep_reco1
+VHgen2 lep_reco0 -1 1 ttHgen0 lep_reco0
+VHgen2 lep_reco2 -1 1 ttHgen2 lep_reco2
+VHgen2 lep_reco3 -1 1 ttHgen3 lep_reco3
+VHgen2 lep_reco4 -1 1 ttHgen4 lep_reco4
+VHgen2 lep_reco5 -1 1 ttHgen5 lep_reco5
+VHgen2 lep_reco1 -1 1 ttHgen1 lep_reco1
+VHgen3 lep_reco0 -1 1 ttHgen0 lep_reco0
+VHgen3 lep_reco2 -1 1 ttHgen2 lep_reco2
+VHgen3 lep_reco3 -1 1 ttHgen3 lep_reco3
+VHgen3 lep_reco4 -1 1 ttHgen4 lep_reco4
+VHgen3 lep_reco5 -1 1 ttHgen5 lep_reco5
+VHgen3 lep_reco1 -1 1 ttHgen1 lep_reco1
+VHgen4 lep_reco0 -1 1 ttHgen0 lep_reco0
+VHgen4 lep_reco2 -1 1 ttHgen2 lep_reco2
+VHgen4 lep_reco3 -1 1 ttHgen3 lep_reco3
+VHgen4 lep_reco4 -1 1 ttHgen4 lep_reco4
+VHgen4 lep_reco5 -1 1 ttHgen5 lep_reco5
+VHgen4 lep_reco1 -1 1 ttHgen1 lep_reco1
+VHgen5 lep_reco0 -1 1 ttHgen0 lep_reco0
+VHgen5 lep_reco2 -1 1 ttHgen2 lep_reco2
+VHgen5 lep_reco3 -1 1 ttHgen3 lep_reco3
+VHgen5 lep_reco4 -1 1 ttHgen4 lep_reco4
+VHgen5 lep_reco5 -1 1 ttHgen5 lep_reco5
+VHgen5 lep_reco1 -1 1 ttHgen1 lep_reco1
+VHgen1 lep_reco0 -1 1 ttHgen0 lep_reco0
+VHgen1 lep_reco2 -1 1 ttHgen2 lep_reco2
+VHgen1 lep_reco3 -1 1 ttHgen3 lep_reco3
+VHgen1 lep_reco4 -1 1 ttHgen4 lep_reco4
+VHgen1 lep_reco5 -1 1 ttHgen5 lep_reco5
+VHgen1 lep_reco1 -1 1 ttHgen1 lep_reco1
+ggHgen0 lep_reco0 -1 1 ttHgen0 lep_reco0
+ggHgen0 lep_reco2 -1 1 ttHgen2 lep_reco2
+ggHgen0 lep_reco3 -1 1 ttHgen3 lep_reco3
+ggHgen0 lep_reco4 -1 1 ttHgen4 lep_reco4
+ggHgen0 lep_reco5 -1 1 ttHgen5 lep_reco5
+ggHgen0 lep_reco1 -1 1 ttHgen1 lep_reco1
+ggHgen2 lep_reco0 -1 1 ttHgen0 lep_reco0
+ggHgen2 lep_reco2 -1 1 ttHgen2 lep_reco2
+ggHgen2 lep_reco3 -1 1 ttHgen3 lep_reco3
+ggHgen2 lep_reco4 -1 1 ttHgen4 lep_reco4
+ggHgen2 lep_reco5 -1 1 ttHgen5 lep_reco5
+ggHgen2 lep_reco1 -1 1 ttHgen1 lep_reco1
+ggHgen3 lep_reco0 -1 1 ttHgen0 lep_reco0
+ggHgen3 lep_reco2 -1 1 ttHgen2 lep_reco2
+ggHgen3 lep_reco3 -1 1 ttHgen3 lep_reco3
+ggHgen3 lep_reco4 -1 1 ttHgen4 lep_reco4
+ggHgen3 lep_reco5 -1 1 ttHgen5 lep_reco5
+ggHgen3 lep_reco1 -1 1 ttHgen1 lep_reco1
+ggHgen4 lep_reco0 -1 1 ttHgen0 lep_reco0
+ggHgen4 lep_reco2 -1 1 ttHgen2 lep_reco2
+ggHgen4 lep_reco3 -1 1 ttHgen3 lep_reco3
+ggHgen4 lep_reco4 -1 1 ttHgen4 lep_reco4
+ggHgen4 lep_reco5 -1 1 ttHgen5 lep_reco5
+ggHgen4 lep_reco1 -1 1 ttHgen1 lep_reco1
+ggHgen5 lep_reco0 -1 1 ttHgen0 lep_reco0
+ggHgen5 lep_reco2 -1 1 ttHgen2 lep_reco2
+ggHgen5 lep_reco3 -1 1 ttHgen3 lep_reco3
+ggHgen5 lep_reco4 -1 1 ttHgen4 lep_reco4
+ggHgen5 lep_reco5 -1 1 ttHgen5 lep_reco5
+ggHgen5 lep_reco1 -1 1 ttHgen1 lep_reco1
+ggHgen1 lep_reco0 -1 1 ttHgen0 lep_reco0
+ggHgen1 lep_reco2 -1 1 ttHgen2 lep_reco2
+ggHgen1 lep_reco3 -1 1 ttHgen3 lep_reco3
+ggHgen1 lep_reco4 -1 1 ttHgen4 lep_reco4
+ggHgen1 lep_reco5 -1 1 ttHgen5 lep_reco5
+ggHgen1 lep_reco1 -1 1 ttHgen1 lep_reco1
+ttHgen0 lep_reco0 1 1
+ttHgen0 lep_reco2 -1 1 ttHgen2 lep_reco2
+ttHgen0 lep_reco3 -1 1 ttHgen3 lep_reco3
+ttHgen0 lep_reco4 -1 1 ttHgen4 lep_reco4
+ttHgen0 lep_reco5 -1 1 ttHgen5 lep_reco5
+ttHgen0 lep_reco1 -1 1 ttHgen1 lep_reco1
+ttHgen2 lep_reco0 -1 1 ttHgen0 lep_reco0
+ttHgen2 lep_reco2 2 1
+ttHgen2 lep_reco3 -1 1 ttHgen3 lep_reco3
+ttHgen2 lep_reco4 -1 1 ttHgen4 lep_reco4
+ttHgen2 lep_reco5 -1 1 ttHgen5 lep_reco5
+ttHgen2 lep_reco1 -1 1 ttHgen1 lep_reco1
+ttHgen3 lep_reco0 -1 1 ttHgen0 lep_reco0
+ttHgen3 lep_reco2 -1 1 ttHgen2 lep_reco2
+ttHgen3 lep_reco3 2 1
+ttHgen3 lep_reco4 -1 1 ttHgen4 lep_reco4
+ttHgen3 lep_reco5 -1 1 ttHgen5 lep_reco5
+ttHgen3 lep_reco1 -1 1 ttHgen1 lep_reco1
+ttHgen4 lep_reco0 -1 1 ttHgen0 lep_reco0
+ttHgen4 lep_reco2 -1 1 ttHgen2 lep_reco2
+ttHgen4 lep_reco3 -1 1 ttHgen3 lep_reco3
+ttHgen4 lep_reco4 2 1
+ttHgen4 lep_reco5 -1 1 ttHgen5 lep_reco5
+ttHgen4 lep_reco1 -1 1 ttHgen1 lep_reco1
+ttHgen5 lep_reco0 -1 1 ttHgen0 lep_reco0
+ttHgen5 lep_reco2 -1 1 ttHgen2 lep_reco2
+ttHgen5 lep_reco3 -1 1 ttHgen3 lep_reco3
+ttHgen5 lep_reco4 -1 1 ttHgen4 lep_reco4
+ttHgen5 lep_reco5 2 1
+ttHgen5 lep_reco1 -1 1 ttHgen1 lep_reco1
+ttHgen1 lep_reco0 -1 1 ttHgen0 lep_reco0
+ttHgen1 lep_reco2 -1 1 ttHgen2 lep_reco2
+ttHgen1 lep_reco3 -1 1 ttHgen3 lep_reco3
+ttHgen1 lep_reco4 -1 1 ttHgen4 lep_reco4
+ttHgen1 lep_reco5 -1 1 ttHgen5 lep_reco5
+ttHgen1 lep_reco1 1 1

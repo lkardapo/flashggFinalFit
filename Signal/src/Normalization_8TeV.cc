@@ -31,6 +31,11 @@ int Normalization_8TeV::Init(int sqrtS){
 	double valXSWH  =  (double)TPython::Eval(Form("buildSMHiggsSignalXSBR.getXS(%f,'%s')",mH,"WH"));
 	double valXSZH  =  (double)TPython::Eval(Form("buildSMHiggsSignalXSBR.getXS(%f,'%s')",mH,"ZH"));
 	double valXSbbH  =  (double)TPython::Eval(Form("buildSMHiggsSignalXSBR.getXS(%f,'%s')",mH,"bbH"));
+
+        //Trilinear: value of cross section for TH
+        double valXSTHQ = 0.07713;
+        double valXSTHW = 0.01517;
+
 	BranchingRatioMap[mH]	= valBR;
         XSectionMap_ggh[mH]	= valXSggH; 	
         XSectionMap_vbf[mH]	= valXSqqH; 	
@@ -49,13 +54,47 @@ int Normalization_8TeV::Init(int sqrtS){
         XSectionMap_testTHQ[mH]	= 0.074;
         XSectionMap_testTHW[mH]	= 0.015;
 
-        //TRILINEAR: cross-section in particular gen-bin as fraction of ttH
-        XSectionMap_ttHgen0[mH] = 0.488*valXSttH;
-        XSectionMap_ttHgen1[mH] = 0.366*valXSttH;
-        XSectionMap_ttHgen2[mH] = 0.100*valXSttH;
-        XSectionMap_ttHgen3[mH] = 0.030*valXSttH;
-        XSectionMap_ttHgen4[mH] = 0.009*valXSttH;
-	
+        //TRILINEAR: cross-section in particular gen-bin as fraction of process
+        //gen0: 0-45 GeV
+        //gen1: 45-80 GeV
+        //gen2: 80-120 GeV
+        //gen3: 120-200 GeV
+        //gen4: 200-350 GeV
+        //gen5: 350-inf GeV
+        XSectionMap_ttHgen0[mH] = 0.145*valXSttH;
+        XSectionMap_ttHgen1[mH] = 0.202*valXSttH;
+        XSectionMap_ttHgen2[mH] = 0.205*valXSttH;
+        XSectionMap_ttHgen3[mH] = 0.257*valXSttH;
+        XSectionMap_ttHgen4[mH] = 0.151*valXSttH;
+        XSectionMap_ttHgen5[mH] = 0.037*valXSttH;
+
+        XSectionMap_ggHgen0[mH] = 0.138*valXSggH;
+        XSectionMap_ggHgen1[mH] = 0.152*valXSggH;
+        XSectionMap_ggHgen2[mH] = 0.199*valXSggH;
+        XSectionMap_ggHgen3[mH] = 0.250*valXSggH;
+        XSectionMap_ggHgen4[mH] = 0.173*valXSggH;
+        XSectionMap_ggHgen5[mH] = 0.085*valXSggH;
+
+        XSectionMap_VHgen0[mH] = 0.155*(valXSWH+valXSZH);
+        XSectionMap_VHgen1[mH] = 0.215*(valXSWH+valXSZH);
+        XSectionMap_VHgen2[mH] = 0.221*(valXSWH+valXSZH);
+        XSectionMap_VHgen3[mH] = 0.240*(valXSWH+valXSZH);
+        XSectionMap_VHgen4[mH] = 0.138*(valXSWH+valXSZH);
+        XSectionMap_VHgen5[mH] = 0.028*(valXSWH+valXSZH);
+
+        XSectionMap_THQgen0[mH] = 0.107*valXSTHQ;
+        XSectionMap_THQgen1[mH] = 0.164*valXSTHQ;
+        XSectionMap_THQgen2[mH] = 0.185*valXSTHQ;
+        XSectionMap_THQgen3[mH] = 0.271*valXSTHQ;
+        XSectionMap_THQgen4[mH] = 0.203*valXSTHQ;
+        XSectionMap_THQgen5[mH] = 0.067*valXSTHQ;
+
+        XSectionMap_THWgen0[mH] = 0.043*valXSTHW;
+        XSectionMap_THWgen1[mH] = 0.078*valXSTHW;
+        XSectionMap_THWgen2[mH] = 0.112*valXSTHW;
+        XSectionMap_THWgen3[mH] = 0.243*valXSTHW;
+        XSectionMap_THWgen4[mH] = 0.322*valXSTHW;
+        XSectionMap_THWgen5[mH] = 0.199*valXSTHW;
     }
 
     //Graviton X-Sections - assume the same as SM
@@ -201,8 +240,58 @@ TGraph * Normalization_8TeV::GetSigmaGraph(TString process)
                 XSectionMap = &XSectionMap_ttHgen3;
 	} else if ( process.Contains("ttHgen4") ) {
                 XSectionMap = &XSectionMap_ttHgen4;
+	} else if ( process.Contains("ttHgen5") ) {
+                XSectionMap = &XSectionMap_ttHgen5;
+        } else if ( process.Contains("ggHgen0") ) {
+                XSectionMap = &XSectionMap_ggHgen0;
+	} else if ( process.Contains("ggHgen1") ) {
+                XSectionMap = &XSectionMap_ggHgen1;
+	} else if ( process.Contains("ggHgen2") ) {
+                XSectionMap = &XSectionMap_ggHgen2;
+	} else if ( process.Contains("ggHgen3") ) {
+                XSectionMap = &XSectionMap_ggHgen3;
+	} else if ( process.Contains("ggHgen4") ) {
+                XSectionMap = &XSectionMap_ggHgen4;
+	} else if ( process.Contains("ggHgen5") ) {
+                XSectionMap = &XSectionMap_ggHgen5;
+        } else if ( process.Contains("VHgen0") ) {
+                XSectionMap = &XSectionMap_VHgen0;
+	} else if ( process.Contains("VHgen1") ) {
+                XSectionMap = &XSectionMap_VHgen1;
+	} else if ( process.Contains("VHgen2") ) {
+                XSectionMap = &XSectionMap_VHgen2;
+	} else if ( process.Contains("VHgen3") ) {
+                XSectionMap = &XSectionMap_VHgen3;
+	} else if ( process.Contains("VHgen4") ) {
+                XSectionMap = &XSectionMap_VHgen4;
+	} else if ( process.Contains("VHgen5") ) {
+                XSectionMap = &XSectionMap_VHgen5;
+        } else if ( process.Contains("THQgen0") ) {
+                XSectionMap = &XSectionMap_THQgen0;
+	} else if ( process.Contains("THQgen1") ) {
+                XSectionMap = &XSectionMap_THQgen1;
+	} else if ( process.Contains("THQgen2") ) {
+                XSectionMap = &XSectionMap_THQgen2;
+	} else if ( process.Contains("THQgen3") ) {
+                XSectionMap = &XSectionMap_THQgen3;
+	} else if ( process.Contains("THQgen4") ) {
+                XSectionMap = &XSectionMap_ttHgen4;
+	} else if ( process.Contains("THQgen5") ) {
+                XSectionMap = &XSectionMap_ttHgen5;
+        } else if ( process.Contains("THWgen0") ) {
+                XSectionMap = &XSectionMap_THWgen0;
+	} else if ( process.Contains("THWgen1") ) {
+                XSectionMap = &XSectionMap_THWgen1;
+	} else if ( process.Contains("THWgen2") ) {
+                XSectionMap = &XSectionMap_THWgen2;
+	} else if ( process.Contains("THWgen3") ) {
+                XSectionMap = &XSectionMap_THWgen3;
+	} else if ( process.Contains("THWgen4") ) {
+                XSectionMap = &XSectionMap_ttHgen4;
+	} else if ( process.Contains("THWgen5") ) {
+                XSectionMap = &XSectionMap_ttHgen5;
 	}    else {
-		std::cout << "[WARNING] Warning ggh, vbf, wh, zh, wzh, tth or grav or STXS proc not found in histname!!!!" << std::endl;
+		std::cout << "[WARNING] Warning ggh, vbf, wh, zh, wzh, tth or grav or STXS or TRILINEAR proc not found in histname!!!!" << std::endl;
 		//exit(1);
 	}
 
@@ -291,10 +380,61 @@ double Normalization_8TeV::GetXsection(double mass, TString HistName) {
                 XSectionMap = &XSectionMap_ttHgen2;
 	} else if (HistName.Contains("ttHgen3") ) {
                 XSectionMap = &XSectionMap_ttHgen3;
-	} else if (HistName.Contains("ttHgen4") ) {
+	} else if ( HistName.Contains("ttHgen4") ) {
                 XSectionMap = &XSectionMap_ttHgen4;
+	} else if ( HistName.Contains("ttHgen5") ) {
+                XSectionMap = &XSectionMap_ttHgen5;
+        } else if (HistName.Contains("ggHgen0") ) {
+                XSectionMap = &XSectionMap_ggHgen0;
+	} else if (HistName.Contains("ggHgen1") ) {
+                XSectionMap = &XSectionMap_ggHgen1;
+	} else if (HistName.Contains("ggHgen2") ) {
+                XSectionMap = &XSectionMap_ggHgen2;
+	} else if (HistName.Contains("ggHgen3") ) {
+                XSectionMap = &XSectionMap_ggHgen3;
+	} else if ( HistName.Contains("ggHgen4") ) {
+                XSectionMap = &XSectionMap_ggHgen4;
+	} else if ( HistName.Contains("ggHgen5") ) {
+                XSectionMap = &XSectionMap_ggHgen5;
+        } else if (HistName.Contains("VHgen0") ) {
+                XSectionMap = &XSectionMap_VHgen0;
+	} else if (HistName.Contains("VHgen1") ) {
+                XSectionMap = &XSectionMap_VHgen1;
+	} else if (HistName.Contains("VHgen2") ) {
+                XSectionMap = &XSectionMap_VHgen2;
+	} else if (HistName.Contains("VHgen3") ) {
+                XSectionMap = &XSectionMap_VHgen3;
+	} else if ( HistName.Contains("VHgen4") ) {
+                XSectionMap = &XSectionMap_VHgen4;
+	} else if ( HistName.Contains("VHgen5") ) {
+                XSectionMap = &XSectionMap_VHgen5;
+
+        } else if (HistName.Contains("THQgen0") ) {
+                XSectionMap = &XSectionMap_THQgen0;
+	} else if (HistName.Contains("THQgen1") ) {
+                XSectionMap = &XSectionMap_THQgen1;
+	} else if (HistName.Contains("THQgen2") ) {
+                XSectionMap = &XSectionMap_THQgen2;
+	} else if (HistName.Contains("THQgen3") ) {
+                XSectionMap = &XSectionMap_THQgen3;
+	} else if ( HistName.Contains("THQgen4") ) {
+                XSectionMap = &XSectionMap_ttHgen4;
+	} else if ( HistName.Contains("THQgen5") ) {
+                XSectionMap = &XSectionMap_ttHgen5;
+        } else if (HistName.Contains("THWgen0") ) {
+                XSectionMap = &XSectionMap_THWgen0;
+	} else if (HistName.Contains("THWgen1") ) {
+                XSectionMap = &XSectionMap_THWgen1;
+	} else if (HistName.Contains("THWgen2") ) {
+                XSectionMap = &XSectionMap_THWgen2;
+	} else if (HistName.Contains("THWgen3") ) {
+                XSectionMap = &XSectionMap_THWgen3;
+	} else if ( HistName.Contains("THWgen4") ) {
+                XSectionMap = &XSectionMap_ttHgen4;
+	} else if ( HistName.Contains("THWgen5") ) {
+                XSectionMap = &XSectionMap_ttHgen5;
 	} else {
-		std::cout << "[WARNING] Warning ggh, vbf, wh, zh, wzh, tth or grav or STXS proc not found in " << HistName << std::endl;
+		std::cout << "[WARNING] Warning ggh, vbf, wh, zh, wzh, tth or grav or STXS or TRILINEAR proc not found in " << HistName << std::endl;
 		//exit(1);
 	}
 

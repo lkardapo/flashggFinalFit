@@ -58,7 +58,16 @@ def Init13TeV():
  # options.funcXSext = "14TeV" #For now, should update FIXME
   options.funcXSext = "13TeV" 
 
- 
+#def Init14TeV():
+#  SM.makeXS("ggH","14TeV") #For now, should update FIXME
+#  SM.makeXS("qqH","14TeV")#For now, should update FIXME
+#  SM.makeXS("ttH","14TeV")#For now, should update FIXME
+#  SM.makeXS("bbH","14TeV")#For now, should update FIXME
+#  SM.makeXS("WH","14TeV")#For now, should update FIXME
+#  SM.makeXS("ZH","14TeV")#For now, should update FIXME
+ # options.funcXSext = "14TeV" #For now, should update FIXME
+#  options.funcXSext = "14TeV" 
+
 def getBR(mh): 
  mhVar.setVal(mh)
  return funcBR.getVal()

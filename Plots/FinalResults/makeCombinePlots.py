@@ -264,7 +264,7 @@ def drawGlobals(canv,shifted="False"):
    if not options.paperStyle: lat.DrawLatex(0.1,0.92,"#bf{CMS} #scale[0.75]{#it{Preliminary}}")
    else: 
      lat.SetTextSize(0.07)
-     lat.DrawLatex(0.1,0.92,"#bf{CMS}")
+     lat.DrawLatex(0.1,0.92,"#bf{CMS Simulation}")
    #lat.DrawLatex(0.129+0.04,0.85,"H#rightarrow#gamma#gamma")
    lat.SetTextSize(0.05)
    lat.DrawLatex(0.13,0.83,"H#rightarrow#gamma#gamma") #LHCP17
@@ -749,6 +749,7 @@ def plot1DNLL(returnErrors=False,xvar="", ext=""):
     print "%15s : %4.6f +%4.6g -%4.6g" % ( ntitle+" "+ext, xmin, eplus , eminus )
     if (options.method=="mu"):
       print "MU = %4.6f +%4.6g -%4.6g" % (  xmin, eplus , eminus )
+      print "95% C.L. = +%4.6g -%4.6g" %( eplus2, eminus2 )
     #Write in the ledger
     #with open(options.itLedger, "a") as myfile:
 		#    myfile.write("%s %f %f %f\n" % ( options.method+" "+options.it, xmin, eplus , eminus ))
@@ -836,9 +837,9 @@ def plot1DNLL(returnErrors=False,xvar="", ext=""):
   canv.RedrawAxis()
   canv.Update()
   if not options.batch: raw_input("Looks ok?")
-  canv.Print('%s.pdf'%options.outname)
-  canv.Print('%s.png'%options.outname)
-  canv.Print('%s.C'%options.outname)
+  #canv.Print('%s.pdf'%options.outname)
+  #canv.Print('%s.png'%options.outname)
+  #canv.Print('%s.C'%options.outname)
   canv.SetName(options.outname)
   outf.cd()
   canv.Write()

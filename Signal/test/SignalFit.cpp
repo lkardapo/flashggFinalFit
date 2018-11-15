@@ -83,6 +83,7 @@ string highR9cats_;
 string lowR9cats_;
 int verbose_=0;
 int ncpu_=1;
+//Trilinear: upgrade study --> 14TeV
 int sqrts_=13;
 int pdfWeights_=26;
 vector<int> cats_;
@@ -107,8 +108,10 @@ string referenceProc_="ttHgen0";
 string referenceProcWV_="ttHgen0";
 //string referenceProcTTH_="tth";
 string referenceProcTTH_="TTH";
-string referenceTagWV_="reco0";
-string referenceTagRV_="reco0";
+string referenceTagWV_="lep_reco0";
+string referenceTagRV_="lep_reco0";
+//string referenceTagWV_="reco0_BDTb";
+//string referenceTagRV_="reco0_BDTb";
 vector<string> map_proc_;
 vector<string> map_cat_;
 vector<string> map_replacement_proc_RV_;
@@ -447,8 +450,10 @@ int main(int argc, char *argv[]){
   referenceProc_="ttHgen0";
   //referenceProcTTH_="tth";
   referenceProcTTH_="TTH";
-  referenceTagWV_="reco0"; // histest stats WV is ggh Untagged 3. 
-  referenceTagRV_="reco0"; // fairly low resolution tag even for ggh, more approprioate as te default than re-using the original tag.
+  referenceTagWV_="lep_reco0"; // histest stats WV is ggh Untagged 3. 
+  //referenceTagWV_="reco0_BDTb"; // histest stats WV is ggh Untagged 3. 
+  referenceTagRV_="lep_reco0"; // fairly low resolution tag even for ggh, more approprioate as te default than re-using the original tag.
+  //referenceTagRV_="reco0_BDTb"; // fairly low resolution tag even for ggh, more approprioate as te default than re-using the original tag.
   // are WV which needs to borrow should be taken from here
   
   // isFlashgg should now be the only option.
