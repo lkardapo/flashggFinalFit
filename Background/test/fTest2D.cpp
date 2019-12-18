@@ -88,7 +88,7 @@ void runFit(RooAbsPdf *pdf, RooDataSet *data, double *NLL, int *stat_t, int MaxT
    int stat=1;
    double minnll=10e8;
    while (stat!=0){
-        if (ntries>=MaxTries) break;
+      if (ntries>=MaxTries) break;
       RooFitResult *fitTest = pdf->fitTo(*data,RooFit::Save(1)
 					 ,RooFit::Minimizer("Minuit2","minimize"),RooFit::SumW2Error(kTRUE)); //FIXME
                 stat = fitTest->status();
@@ -597,42 +597,46 @@ int getBestFitFunction(RooMultiPdf *bkg, RooDataSet *data, RooCategory *cat, boo
 
 void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelop,RooWorkspace *_w,
 			       int Ncat,  vector<map<string,int> > choices_mgg, vector<map<string,int> > choices_mjj,
-			       vector<string> functionClasses, map<string,string> namingMap)
+			       vector<string> functionClasses, map<string,string> namingMap,
+			       int _fitStrategy,bool isFlashgg_,bool isData_,int isbbggLimits_,
+			      vector<string> flashggCats_)
 {
-     //******************************************//
-     // Fit background with model pdfs
-       //******************************************//
-     // retrieve pdfs and datasets from workspace to fit with pdf models
    std::vector<RooDataSet*> data(Ncat,nullptr);
-     //std::vector<RooBernstein*> mggBkg(Ncat,nullptr);// the polinomial of 4* order
-     //std::vector<RooBernstein*> mjjBkg(Ncat,nullptr);// the polinomial of 4* order
+   RooWorkspace *wBias;
 
-   //   std::vector<int> func_ord;
-     //std::vector<string> label;
-     RooWorkspace *wBias = new RooWorkspace("w_bias","w_bias");
-   int _fitStrategy=2; // Only 2D for start
+   wBias = new RooWorkspace("multipdf","multipdf");
+   //   int _fitStrategy=2; // Only 2D for start
    
-     RooRealVar* mgg = _w->var("mgg");
-     RooRealVar* mjj = _w->var("mjj");
+   RooRealVar *mgg,*mjj;
+   if(isFlashgg_ && isData_){
+      mgg = _w->var("CMS_hgg_mass");
+      if(_fitStrategy==2) mjj = _w->var("CMS_hjj_mass");
+      else mjj = new RooRealVar("CMS_hjj_mass","CMS_hjj_mass",mjj_low,mjj_high);
+   }
+   else if(isbbggLimits_){
+      mgg = _w->var("mgg");
+      mjj = _w->var("mjj");
+   }
+
  
-     mgg->setRange("BkgFitRange",mgg_low,mgg_high);
-     mjj->setRange("BkgFitRange",mjj_low,mjj_high);
-      RooArgSet *obsset = new RooArgSet();
-      obsset->add(*mgg);
-      obsset->add(*mjj);
-      //mgg->setBins(_BinsMgg);
-      //mjj->setBins(_BinsMjj);
-      RooFitResult* fitresults = new RooFitResult();
-     PdfModelBuilder pdfsModel;
-     PdfModelBuilder pdfsModel_1;
-     pdfsModel.setObsVar(mgg);
-     pdfsModel_1.setObsVar(mjj);
-
-      RooAbsPdf* mggBkgTmp = nullptr;
-      RooAbsPdf* mjjBkgTmp = nullptr;
-      RooProdPdf* BkgProdPdf = nullptr;
-      RooExtendPdf* BkgExtPdf = nullptr;
-
+   mgg->setRange("BkgFitRange",mgg_low,mgg_high);
+   if(_fitStrategy==2) mjj->setRange("BkgFitRange",mjj_low,mjj_high);
+   RooArgSet *obsset = new RooArgSet();
+   obsset->add(*mgg);
+   if(_fitStrategy==2) obsset->add(*mjj);
+   mgg->setBins(nBinsForMass);
+   if(_fitStrategy==2) mjj->setBins(nBinsForMass2);
+   RooFitResult* fitresults = new RooFitResult();
+   PdfModelBuilder pdfsModel;
+   pdfsModel.setObsVar(mgg);
+   PdfModelBuilder pdfsModel_1;
+   pdfsModel_1.setObsVar(mjj);
+   
+   RooAbsPdf* mggBkgTmp = nullptr;
+   RooAbsPdf* mjjBkgTmp = nullptr;
+   RooProdPdf* BkgProdPdf = nullptr;
+   RooExtendPdf* BkgExtPdf = nullptr;
+   
 
      // add label for pdf according to function
    int NumOfFunc = functionClasses.size();
@@ -646,143 +650,170 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
    for(int i=0;i<Ncat;i++) allorders[i]=false;
    ifstream  jFile(jsonForEnvelop.c_str());
    std::vector<TString> EnvFunc[Ncat];
-      if(!jFile.good()){
-	       cout<<"[WARNING]: Can't open envelope json file "<<jsonForEnvelop.c_str()<<endl;
-	       for(int c=0;c<Ncat;c++){
-		  map<string,int> choices_mgg_cat = choices_mgg[c];
-		  map<string,int> choices_mjj_cat = choices_mjj[c];
-		   for(int i=0;i<NumOfFunc;i++){
-		          func_ordmgg[c][i] = choices_mgg_cat.find(functionClasses[i])->second;
-		          func_ordmjj[c][i] = choices_mjj_cat.find(functionClasses[i])->second;
-		          allorders[c] = true;
-		   }
-	       }
+   if(!jFile.good()){
+      cout<<"[WARNING]: Can't open envelope json file "<<jsonForEnvelop.c_str()<<endl;
+      for(int c=0;c<Ncat;c++){
+	 map<string,int> choices_mgg_cat = choices_mgg[c];
+	 map<string,int> choices_mjj_cat = choices_mjj[c];
+	 for(int i=0;i<NumOfFunc;i++){
+	    func_ordmgg[c][i] = choices_mgg_cat.find(functionClasses[i])->second;
+	    func_ordmjj[c][i] = choices_mjj_cat.find(functionClasses[i])->second;
+	    allorders[c] = true;
+	 }
+      }
+   }
+   else{
+      int cat; char funcs[500]; char line[500];
+      jFile.getline(line,500);
+      for(int c=0;c<Ncat;c++){
+	 jFile.getline(line,500);
+	 cat=-1; strcpy(funcs, "");
+	 sscanf(line,"cat%d: %d %d %d %d %d %d %s",&cat,&(func_ordmgg[c][0]),&(func_ordmgg[c][1]),&(func_ordmgg[c][2]),&(func_ordmjj[c][0]),&(func_ordmjj[c][1]),&(func_ordmjj[c][2]),funcs);
+	 
+	 TString st_funcs(funcs);
+	 TObjArray *tx = st_funcs.Tokenize(",");
+	 if(tx->GetEntries()>0){
+	    for (Int_t i = 0; i < tx->GetEntries(); i++) EnvFunc[cat].push_back(  ((TObjString *)(tx->At(i)))->String() );
+	 }
+	 else
+	   allorders[c] = true;
+	 delete tx;
+	 
+	 // printf("cat %d:\n ",cat);
+	 // printf("%d %d %d %d %d %d\n",func_ordmgg[c][0],func_ordmgg[c][1],func_ordmgg[c][2],func_ordmjj[c][0],func_ordmjj[c][1],func_ordmjj[c][2]);
+	 //cout<<func_ordmgg[c][0]<<"  "<<func_ordmgg[c][1]<<"  "<<func_ordmgg[c][2]<<"  "<<func_ordmjj[c][0]<<"  "<<func_ordmjj[c][1]<<"  "<<func_ordmjj[c][2]<<"  "<<endl;
+//	 for(unsigned k=0; k<EnvFunc[c].size(); k++){
+//	    cout<<EnvFunc[c][k]<<"  ";
+//	    //printf("%s  \n",EnvFunc[c][k].Data());
+//	    if(k>4) break;
+//	 }
+//	 cout<<endl;
+	 
+      }
+      
+   }
+
+   
+   for (int c = 0; c < Ncat; ++c) { // to each category
+
+      string catname;
+      if (isData_) {
+	 catname = Form("%s",flashggCats_[c].c_str());
+	 data[c] = (RooDataSet*)_w->data(Form("Data_13TeV_%s",catname.c_str()));
+      }
+      else if(isbbggLimits_){
+	 catname = Form("cat%d",c);
+	 data[c] = (RooDataSet*)_w->data(Form("data_obs_%s",catname.c_str()));
       }
       else{
-	       int cat; char funcs[500]; char line[500];
-	       jFile.getline(line,500);
-	       for(int c=0;c<Ncat;c++){
-		   jFile.getline(line,500);
-		   cat=-1; strcpy(funcs, "");
-		   sscanf(line,"cat%d: %d %d %d %d %d %d %s",&cat,&(func_ordmgg[c][0]),&(func_ordmgg[c][1]),&(func_ordmgg[c][2]),&(func_ordmjj[c][0]),&(func_ordmjj[c][1]),&(func_ordmjj[c][2]),funcs);
-
-		   TString st_funcs(funcs);
-		   TObjArray *tx = st_funcs.Tokenize(",");
-		   if(tx->GetEntries()>0){
-		          for (Int_t i = 0; i < tx->GetEntries(); i++) EnvFunc[cat].push_back(  ((TObjString *)(tx->At(i)))->String() );
-		   }
-		   else
-		       allorders[c] = true;
-		   delete tx;
-
-		  // printf("cat %d:\n ",cat);
-		   // printf("%d %d %d %d %d %d\n",func_ordmgg[c][0],func_ordmgg[c][1],func_ordmgg[c][2],func_ordmjj[c][0],func_ordmjj[c][1],func_ordmjj[c][2]);
-		    //cout<<func_ordmgg[c][0]<<"  "<<func_ordmgg[c][1]<<"  "<<func_ordmgg[c][2]<<"  "<<func_ordmjj[c][0]<<"  "<<func_ordmjj[c][1]<<"  "<<func_ordmjj[c][2]<<"  "<<endl;
-		   for(unsigned k=0; k<EnvFunc[c].size(); k++){
-		          cout<<EnvFunc[c][k]<<"  ";
-		          //printf("%s  \n",EnvFunc[c][k].Data());
-		          if(k>4) break;
-		   }
-		   cout<<endl;
-
-	       }
-
+	 catname = Form("%s",flashggCats_[c].c_str());
+	 data[c] = (RooDataSet*)_w->data(Form("data_mass_%s",catname.c_str()));
+      }
+      cout<<"\n"<<"----------------------"<<endl;   
+      cout<<"[INFO] Category "<<catname.c_str()<<":"<<endl;
+      cout<<"[INFO] "<<mgg->GetName()<<": ";
+      for(int mggfunc=0;mggfunc<NumOfFunc;mggfunc++)
+	cout<<functionClasses[mggfunc]<<"-"<<func_ordmgg[c][mggfunc]<<" , ";
+      cout<<endl;
+      if(_fitStrategy == 2){
+	 cout<<"[INFO] "<<mjj->GetName()<<": ";
+	 for(int mjjfunc=0;mjjfunc<NumOfFunc;mjjfunc++)
+	   cout<<functionClasses[mjjfunc]<<"-"<<func_ordmjj[c][mjjfunc]<<" , ";
+	 cout<<endl;
       }
 
-     //for (unsigned int i = 0; i < function.size() ; i++){
+      RooRealVar norm(TString::Format("roomultipdf_cat%d_norm",c),"Number of background events",0,10000);
+      RooArgList mypdfs;
+      
+      for(int mggfunc=0;mggfunc<NumOfFunc;mggfunc++){
+	 for(int mggfunc_ord=1; mggfunc_ord<=func_ordmgg[c][mggfunc]; mggfunc_ord++){
+	    
+	    if(mggfunc>0 && mggfunc_ord%2==0) continue; // only odd orders are allowed for Exp and Pow
+	    
+	    for(int mjjfunc=0;mjjfunc<NumOfFunc;mjjfunc++){
+	       for(int mjjfunc_ord=1; mjjfunc_ord<=func_ordmjj[c][mjjfunc]; mjjfunc_ord++){
 
-      for (int c = 0; c < Ncat; ++c) { // to each category
-	 data[c] = (RooDataSet*) _w->data(TString::Format("data_obs_cat%d",c));
-	 wBias->import(*data[c]);
+		  if(_fitStrategy == 1 && !(mjjfunc==0 && mjjfunc_ord==1)) continue;
+		  if(mjjfunc>0 && mjjfunc_ord%2==0)  continue;
 
-	 RooRealVar norm(TString::Format("roomultipdf_cat%d_norm",c),"Number of background events",0,10000);
-	       RooArgList mypdfs;
+		  bool stoploop=true;
+		  if(EnvFunc[c].size()>0){
+		     for(unsigned k=0; k<EnvFunc[c].size(); k++){
+			TString s1,s2;
+			if(_fitStrategy == 2){
+			   s1 = TString::Format("%s%d_%s%d",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord);
+			   s2 = EnvFunc[c][k];
+			}
+			else if(_fitStrategy == 1){
+			   s1 = TString::Format("%s%d",label[mggfunc],mggfunc_ord);
+			   s2 = EnvFunc[c][k]; s2 = s2(0,s2.First("_"));
+			}
+			
+			if( s1==s2 || allorders[c])
+			  stoploop=false;
+			
+		     }
+		  }
+		  else{
+		     stoploop=false;
+		  }
 
-	       for(int mggfunc=0;mggfunc<NumOfFunc;mggfunc++){
-		   for(int mggfunc_ord=1; mggfunc_ord<=func_ordmgg[c][mggfunc]; mggfunc_ord++){
-
-		          if(mggfunc>0 && mggfunc_ord%2==0) continue; // only odd orders are allowed for Exp and Pow
-
-		          for(int mjjfunc=0;mjjfunc<NumOfFunc;mjjfunc++){
-			     for(int mjjfunc_ord=1; mjjfunc_ord<=func_ordmjj[c][mjjfunc]; mjjfunc_ord++){
-
-				  if(_fitStrategy == 1 && !(mjjfunc==0 && mjjfunc_ord==1)) continue;
-				  if(mjjfunc>0 && mjjfunc_ord%2==0)  continue;
-
-				  bool stoploop=true;
-				if(EnvFunc[c].size()>0){
-				        for(unsigned k=0; k<EnvFunc[c].size(); k++){
-					   TString s1,s2;
-					   if(_fitStrategy == 2){
-					      s1 = TString::Format("%s%d_%s%d",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord);
-					         s2 = EnvFunc[c][k];
-					   }
-					   else if(_fitStrategy == 1){
-					      s1 = TString::Format("%s%d",label[mggfunc],mggfunc_ord);
-					         s2 = EnvFunc[c][k]; s2 = s2(0,s2.First("_"));
-					   }
-
-					      if( s1==s2 || allorders[c])
-					          stoploop=false;
-
-					}
-				}
-				  else{
-				          stoploop=false;
-				  }
-
-				  if(stoploop) continue;
-
-				//  printf("%s%d_%s%d_cat%d\n",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c);
-
-				if(_fitStrategy == 2){
-				   mggBkgTmp = getPdf(pdfsModel,functionClasses[mggfunc],mggfunc_ord, TString::Format("bkg_mgg_for%s%d_cat%d",label[mjjfunc],mjjfunc_ord,c));
-				   mjjBkgTmp = getPdf(pdfsModel_1,functionClasses[mjjfunc],mjjfunc_ord, TString::Format("bkg_mjj_for%s%d_cat%d",label[mggfunc],mggfunc_ord,c));
-				   BkgProdPdf = new RooProdPdf(TString::Format("pdf_%s%d_%s%d_cat%d",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c), "", RooArgList(*mggBkgTmp, *mjjBkgTmp));
-				   BkgExtPdf = new RooExtendPdf(TString::Format("ext_pdf_%s%d_%s%d_cat%d",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c),"", *BkgProdPdf,norm);
-				}
-				  else if(_fitStrategy == 1){
-				     mggBkgTmp = getPdf(pdfsModel,functionClasses[mggfunc],mggfunc_ord, TString::Format("bkg_mgg_cat%d",c));
-				     BkgExtPdf = new RooExtendPdf(TString::Format("ext_pdf_%s%d_cat%d",label[mggfunc],mggfunc_ord,c),"", *mggBkgTmp,norm);
-				  }
-
-				  RooArgSet *params_test = BkgExtPdf->getParameters(obsset);
-				  int ntries = 0;
-				int stat = 1;
-				  while (stat!=0 && ntries < 100){
-
-				     fitresults = BkgExtPdf->fitTo(*data[c], Strategy(2),Minos(kFALSE), Range("BkgFitRange"), Save(kTRUE),PrintLevel(-1));
-				          stat = fitresults->status();
-				          if (stat!=0) params_test->assignValueOnly(fitresults->randomizePars());
-				          ntries++;
-				  }
-
-				if(stat!=0){
-				        printf("Warning::Fit of background function pdf_%s%d_%s%d_cat%d is failed\n",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c);
-				}
-				  if(_fitStrategy == 2)
-				      mypdfs.add(*BkgProdPdf);
-				  else if(_fitStrategy == 1)
-				      mypdfs.add(*mggBkgTmp);
-			     }
-			  }
-		   }
+		  if(stoploop) continue;
+		  
+		  //  printf("%s%d_%s%d_cat%d\n",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c);
+		  if(_fitStrategy == 2){
+		     mggBkgTmp = getPdf(pdfsModel,functionClasses[mggfunc],mggfunc_ord, TString::Format("bkg_mgg_for%s%d_cat%d",label[mjjfunc],mjjfunc_ord,c));
+		     mjjBkgTmp = getPdf(pdfsModel_1,functionClasses[mjjfunc],mjjfunc_ord, TString::Format("bkg_mjj_for%s%d_cat%d",label[mggfunc],mggfunc_ord,c));
+		     BkgProdPdf = new RooProdPdf(TString::Format("pdf_%s%d_%s%d_cat%d",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c), "", RooArgList(*mggBkgTmp, *mjjBkgTmp));
+		     BkgExtPdf = new RooExtendPdf(TString::Format("ext_pdf_%s%d_%s%d_cat%d",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c),"", *BkgProdPdf,norm);
+		  }
+		  else if(_fitStrategy == 1){
+		     mggBkgTmp = getPdf(pdfsModel,functionClasses[mggfunc],mggfunc_ord, TString::Format("bkg_mgg_cat%d",c));
+		     BkgExtPdf = new RooExtendPdf(TString::Format("ext_pdf_%s%d_cat%d",label[mggfunc],mggfunc_ord,c),"", *mggBkgTmp,norm);
+		  }
+		  RooArgSet *params_test = BkgExtPdf->getParameters(obsset);
+		  int ntries = 0;
+		  int stat = 1;
+		  while (stat!=0 && ntries < 100){
+		     
+		     fitresults = BkgExtPdf->fitTo(*data[c], Strategy(2),Minos(kFALSE), Range("BkgFitRange"), Save(kTRUE),PrintLevel(-1));
+		     stat = fitresults->status();
+		     if (stat!=0) params_test->assignValueOnly(fitresults->randomizePars());
+		     ntries++;
+		  }
+		  if(stat!=0){
+		     printf("Warning::Fit of background function pdf_%s%d_%s%d_cat%d is failed\n",label[mggfunc],mggfunc_ord,label[mjjfunc],mjjfunc_ord,c);
+		  }
+		  if(_fitStrategy == 2)
+		    mypdfs.add(*BkgProdPdf);
+		  else if(_fitStrategy == 1)
+		    mypdfs.add(*mggBkgTmp);
 	       }
-
-	       if(mypdfs.getSize() == 0){
-		   printf("[ERROR] BkgMultiModelFitAllOrders: There are no functions in RooMultiPdf for cat %d\n",c);
-		   printf("Production of workspace with RooMultiPdf was aborted\n");
-		   return;
-	       }
-
-	 RooCategory category(TString::Format("pdf_index_cat%d",c),"Index of Pdf which is active");
-	 RooMultiPdf multipdf(TString::Format("roomultipdf_cat%d",c),"All Pdfs",category,mypdfs);
-	     wBias->import(category);
-	     wBias->import(norm);
-	     wBias->import(multipdf);
-
+	    }
+	 }
       }
+      
+      if(mypdfs.getSize() == 0){
+	 printf("[ERROR] BkgMultiModelFitAllOrders: There are no functions in RooMultiPdf for cat %d\n",c);
+	 printf("Production of workspace with RooMultiPdf was aborted\n");
+	 return;
+      }
+      
+      RooCategory category(TString::Format("pdf_index_cat%d",c),"Index of Pdf which is active");
+      RooMultiPdf multipdf(TString::Format("roomultipdf_cat%d",c),"All Pdfs",category,mypdfs);
 
+      int bestFitPdfIndex = getBestFitFunction(&multipdf,data[c],&category,1);
+      category.setIndex(bestFitPdfIndex);
+      std::cout << "[INFO] Created MultiPdf " << multipdf.GetName() << ", in Category " << c << " with a total of " << category.numTypes() << " pdfs"<< std::endl;
+//      mypdfs.Print();
+      std::cout << "[INFO] Best Fit Pdf = " << bestFitPdfIndex << ", " << mypdfs.at(bestFitPdfIndex)->GetName() << std::endl;
+      
+      wBias->import(category);
+      wBias->import(norm);
+      wBias->import(multipdf);
+      
+   }
+   
 //   if (_verbLvl>1) std::cout << "[BkgMultiPDFModelFit] Finish cat loop " << std::endl;
 //      wBias->Print("v");
    TString filename;
@@ -790,12 +821,12 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
      filename="./ws_TEST.root";
    else
      filename = OutputFileName;
-
-     TFile * tFile = new TFile(filename.Data(), "RECREATE");
-     tFile->cd();
-     wBias->Write();
-     tFile->Close();
-
+   
+   TFile * tFile = new TFile(filename.Data(), "RECREATE");
+   tFile->cd();
+   wBias->Write();
+   tFile->Close();
+   
 }
 
 
@@ -819,7 +850,7 @@ int main(int argc, char* argv[]){
      bool is2011=false;
      bool verbose=false;
      bool saveMultiPdf=false;
-   int isFlashgg_ =1;
+   int isFlashgg_ =1;    int FitStrategy_ =2;
    string flashggCatsStr_;
    vector<string> flashggCats_;
     bool isData_ =0;     bool isbbggLimits_ =0;
@@ -838,6 +869,7 @@ int main(int argc, char* argv[]){
      ("is2012",                                                                                  "Run 2012 config")
      ("unblind",          "Dont blind plots")
      ("isFlashgg",  po::value<int>(&isFlashgg_)->default_value(1),              "Use Flashgg output ")
+     ("FitStrategy",  po::value<int>(&FitStrategy_)->default_value(2),              "1D or 2D ")		 
      ("isbbggLimits",  po::value<bool>(&isbbggLimits_)->default_value(0),              "Use bbggLimit output ")
      ("isData",  po::value<bool>(&isData_)->default_value(0),              "Use Data not MC ")
      ("flashggCats,f", po::value<string>(&flashggCatsStr_)->default_value("UntaggedTag_0,UntaggedTag_1,UntaggedTag_2,UntaggedTag_3,UntaggedTag_4,VBFTag_0,VBFTag_1,VBFTag_2,TTHHadronicTag,TTHLeptonicTag,VHHadronicTag,VHTightTag,VHLooseTag,VHEtTag"),       "Flashgg category names to consider")
@@ -877,14 +909,14 @@ int main(int argc, char* argv[]){
      TFile *outputfile;
      RooWorkspace *outputws;
 
-     if (saveMultiPdf){
-	outputfile = new TFile(outfilename.c_str(),"RECREATE");
-	outputws = new RooWorkspace(); outputws->SetName("multipdf");
-     }
-
-     system(Form("mkdir -p %s",outDir.c_str()));
+   if (saveMultiPdf){
+      outputfile = new TFile(outfilename.c_str(),"RECREATE");
+      outputws = new RooWorkspace(); outputws->SetName("multipdf");
+   }
+   
+   system(Form("mkdir -p %s",outDir.c_str()));
    TFile *inFile = TFile::Open(fileName.c_str());
-     RooWorkspace *inWS;
+   RooWorkspace *inWS;
    if(isFlashgg_){
       if (isData_){
 	 inWS = (RooWorkspace*)inFile->Get("tagsDumper/cms_hgg_13TeV");
@@ -945,18 +977,22 @@ int main(int argc, char* argv[]){
 //   vector<map<string,RooAbsPdf*> > pdfs_vec;
 
    PdfModelBuilder pdfsModel,pdfsModel2;
-   RooRealVar *mass,*mass2;
+   RooRealVar *mass,*mass2=nullptr;
    if(isbbggLimits_){
       mass = (RooRealVar*)inWS->var("mgg");
-      mass2 = (RooRealVar*)inWS->var("mjj"); 
+      if(FitStrategy_==2) mass2 = (RooRealVar*)inWS->var("mjj"); 
    }
    else{
       mass = (RooRealVar*)inWS->var("CMS_hgg_mass"); //FIXME
-      mass2 = (RooRealVar*)inWS->var("CMS_hjj_mass"); //FIXME
+      if(FitStrategy_==2) mass2 = (RooRealVar*)inWS->var("CMS_hjj_mass"); //FIXME
    }
-   std:: cout << "[INFO] Got masses from ws " << mass << " and "<< mass2 << std::endl;
+   if(FitStrategy_!=2) mass2 = mass;
+   std:: cout << "[INFO] Got masses from ws " << mass;
+   if(FitStrategy_==2) std::cout << " and "<< mass2;
+   std::cout<< std::endl;
+   
    pdfsModel.setObsVar(mass);
-   pdfsModel2.setObsVar(mass2);   
+   if(FitStrategy_==2)   pdfsModel2.setObsVar(mass2);   
    double upperEnvThreshold = 0.1; // upper threshold on delta(chi2) to include function in envelope (looser than truth function)
 
    fprintf(resFile,"Truth Model & d.o.f & $\\Delta NLL_{N+1}$ & $p(\\chi^{2}>\\chi^{2}_{(N\\rightarrow N+1)})$ \\\\\n");
@@ -1026,27 +1062,19 @@ int main(int argc, char* argv[]){
       }
       RooDataHist thisdataBinned(thisdataBinned_name.c_str(),"data",*mass,*dataFull);
       data = (RooDataSet*)&thisdataBinned;
-
-      mass2->setBins(nBinsForMass2);
-      RooDataSet *data2;
-      //RooDataHist thisdataBinned(Form("roohist_data_mass_cat%d",cat),"data",*mass,*dataFull);
-      //RooDataSet *data = (RooDataSet*)&thisdataBinned;
+      RooDataSet *data2 = nullptr;
+      if(FitStrategy_==2)
+	mass2->setBins(nBinsForMass2);
       string thisdataBinned_name2;
-
+      
       if ( isFlashgg_){
 	 thisdataBinned_name2 =Form("roohist_data_mass2_%s",flashggCats_[cat].c_str());
-	 //RooDataHist thisdataBinned(Form("roohist_data_mass_cat%d",cat),"data",*mass,*dataFull);
-	 //data = (RooDataSet*)&thisdataBinned;
-	 //std::cout << "debug " << thisdataBinned.GetName() << std::endl;
-
-	 //RooDataSet *data = (RooDataSet*)dataFull;
       } else {
 	 thisdataBinned_name2= Form("roohist_data_mass2_cat%d",cat);
-	 //RooDataSet *data = (RooDataSet*)dataFull;
       }
       RooDataHist thisdataBinned2(thisdataBinned_name2.c_str(),"data2",*mass2,*dataFull);
       data2 = (RooDataSet*)&thisdataBinned2;
-      
+
 
       fprintf(resFile,"\\multicolumn{4}{|c|}{\\textbf{Category %d}} \\\\\n",cat);
       fprintf(resFile,"\\hline\n");
@@ -1114,8 +1142,9 @@ int main(int argc, char* argv[]){
 
       }
       choices_vec.push_back(choices);
-      plot(mass,pdfs,data,Form("%s/truths_mass2_cat%d",outDir.c_str(),cat),flashggCats_,cat);
+      plot(mass,pdfs,data,Form("%s/truths_mass_cat%d",outDir.c_str(),cat),flashggCats_,cat);
 
+      if(FitStrategy_==2) {
       // Standard F-Test to find the truth functions for 2nd mass
       for (vector<string>::iterator funcType=functionClasses.begin();
 	   funcType!=functionClasses.end(); funcType++){
@@ -1176,14 +1205,23 @@ int main(int argc, char* argv[]){
 
       }
       choices_vec2.push_back(choices2);
-      plot(mass,pdfs,data,Form("%s/truths_mass2_cat%d",outDir.c_str(),cat),flashggCats_,cat);
-
+      plot(mass2,pdfs2,data2,Form("%s/truths_mass2_cat%d",outDir.c_str(),cat),flashggCats_,cat);
+      }
+      else{
+	 for (vector<string>::iterator funcType=functionClasses.begin();
+	      funcType!=functionClasses.end(); funcType++)
+	   choices2.insert(pair<string,int>(*funcType,7));
+	 choices_vec2.push_back(choices2);
+      }
    }
    std::string jsonForEnvelop = "";
+   
    if (saveMultiPdf){
       BkgMultiModelFitAllOrders(outfilename, jsonForEnvelop,inWS,
 				ncats, choices_vec, choices_vec2,
-				functionClasses, namingMap);
+				functionClasses, namingMap,
+				FitStrategy_,isFlashgg_,isData_,isbbggLimits_,
+				flashggCats_);
    }
 
    return 0;
