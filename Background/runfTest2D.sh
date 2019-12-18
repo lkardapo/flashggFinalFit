@@ -1,1 +1,2 @@
 ./bin/fTest2D -i /afs/cern.ch/user/l/lkardapo/public/forTests/ws_hhbbgg.data_bkg.root --saveMultiPdf CMS-HGG_multipdf_TEST.root  -D TEST -d TEST/res.dat -f cat0,cat1,cat2,cat3,cat4,cat5,cat6,cat7,cat8,cat9,cat10,cat11  -c 12 --isbbggLimits 1 --isFlashgg 0
+#./bin/fTest2D -i /afs/cern.ch/work/j/jlangfor/public/ForLeonid/allData.root --saveMultiPdf CMS-HGG_multipdf_TEST.root  -D TEST -d TEST/res.dat -f RECO_0J_PTH_GT10_Tag0,RECO_0J_PTH_GT10_Tag1  -c 2  --isFlashgg 1 --isData 1 --FitStrategy 1
