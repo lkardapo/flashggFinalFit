@@ -831,6 +831,21 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
       }
       
    }
+   RooRealVar *intL;
+   RooRealVar *sqrts;
+   if (isFlashgg_){
+      intL  = intLumi_;
+      sqrts = (RooRealVar*)_w->var("SqrtS");
+      if (!sqrts){ sqrts = new RooRealVar("SqrtS","SqrtS",13); }
+   } else if(isbbggLimits_){
+      intL = new RooRealVar("IntLumi","IntLumi",77.4); //FIXME
+      sqrts = new RooRealVar("SqrtS","SqrtS",13); //FIXME
+   }else {
+      intL  = intLumi_;
+      sqrts = (RooRealVar*)_w->var("Sqrts");
+   }
+   wBias->import(*intL);
+   wBias->import(*sqrts);
    
 //   if (_verbLvl>1) std::cout << "[BkgMultiPDFModelFit] Finish cat loop " << std::endl;
 //      wBias->Print("v");
@@ -931,10 +946,10 @@ int main(int argc, char* argv[]){
      TFile *outputfile;
      RooWorkspace *outputws;
 
-   if (saveMultiPdf){
-      outputfile = new TFile(outfilename.c_str(),"RECREATE");
-      outputws = new RooWorkspace(); outputws->SetName("multipdf");
-   }
+//   if (saveMultiPdf){
+//      outputfile = new TFile(outfilename.c_str(),"RECREATE");
+//      outputws = new RooWorkspace(); outputws->SetName("multipdf");
+//   }
    
    system(Form("mkdir -p %s",outDir.c_str()));
    TFile *inFile = TFile::Open(fileName.c_str());
@@ -956,25 +971,6 @@ int main(int argc, char* argv[]){
    if (saveMultiPdf){
       transferMacros(inFile,outputfile);
 
-      RooRealVar *intL;
-      RooRealVar *sqrts;
-      if (isFlashgg_){
-	 //intL  = (RooRealVar*)inWS->var("IntLumi");
-	 intL  = intLumi_;
-	 sqrts = (RooRealVar*)inWS->var("SqrtS");
-	 if (!sqrts){ sqrts = new RooRealVar("SqrtS","SqrtS",13); }
-	 std::cout << "[INFO] got intL and sqrts " << intL << ", " << sqrts << std::endl;
-      } else if(isbbggLimits_){
-	 intL = new RooRealVar("IntLumi","IntLumi",77.4); //FIXME
-	 sqrts = new RooRealVar("SqrtS","SqrtS",13); //FIXME
-      }else {
-	 //intL  = (RooRealVar*)inWS->var("IntLumi");
-	 intL  = intLumi_;
-	 sqrts = (RooRealVar*)inWS->var("Sqrts");
-      }
-      outputws->import(*intL);
-      outputws->import(*sqrts);
-      std::cout << "[INFO] got intL and sqrts " << intL << ", " << sqrts << std::endl;
    }
 
    vector<string> functionClasses;
