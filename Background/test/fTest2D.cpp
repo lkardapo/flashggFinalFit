@@ -595,11 +595,11 @@ int getBestFitFunction(RooMultiPdf *bkg, RooDataSet *data, RooCategory *cat, boo
    return best_index;
 }
 
-void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelop,RooWorkspace *_w,
+void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelope,RooWorkspace *_w,
 			       int Ncat,  vector<map<string,int> > choices_mgg, vector<map<string,int> > choices_mjj,
 			       vector<string> functionClasses, map<string,string> namingMap,
 			       int _fitStrategy,bool isFlashgg_,bool isData_,int isbbggLimits_,
-			      vector<string> flashggCats_)
+			       vector<string> flashggCats_, std::string ext)
 {
    std::vector<RooDataSet*> data(Ncat,nullptr);
    RooWorkspace *wBias;
@@ -624,8 +624,12 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
    RooArgSet *obsset = new RooArgSet();
    obsset->add(*mgg);
    if(_fitStrategy==2) obsset->add(*mjj);
-   mgg->setBins(nBinsForMass);
-   if(_fitStrategy==2) mjj->setBins(nBinsForMass2);
+   if(_fitStrategy==1)
+     mgg->setBins(nBinsForMass);
+   if(_fitStrategy==2){
+      mgg->setBins(100);
+      mjj->setBins(100);
+   }
    RooFitResult* fitresults = new RooFitResult();
    PdfModelBuilder pdfsModel;
    pdfsModel.setObsVar(mgg);
@@ -648,10 +652,10 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
    int func_ordmjj[Ncat][NumOfFunc];
    bool allorders[Ncat];
    for(int i=0;i<Ncat;i++) allorders[i]=false;
-   ifstream  jFile(jsonForEnvelop.c_str());
+   ifstream  jFile(jsonForEnvelope.c_str());
    std::vector<TString> EnvFunc[Ncat];
    if(!jFile.good()){
-      cout<<"[WARNING]: Can't open envelope json file "<<jsonForEnvelop.c_str()<<endl;
+      cout<<"[WARNING]: Can't open envelope json file "<<jsonForEnvelope.c_str()<<endl;
       for(int c=0;c<Ncat;c++){
 	 map<string,int> choices_mgg_cat = choices_mgg[c];
 	 map<string,int> choices_mjj_cat = choices_mjj[c];
@@ -663,6 +667,7 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
       }
    }
    else{
+      cout<<"[INFO]: Produce MultiPdf according to this json file - "<<jsonForEnvelope.c_str()<<endl;
       int cat; char funcs[500]; char line[500];
       jFile.getline(line,500);
       for(int c=0;c<Ncat;c++){
@@ -802,6 +807,14 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
       RooCategory category(TString::Format("pdf_index_cat%d",c),"Index of Pdf which is active");
       RooMultiPdf multipdf(TString::Format("roomultipdf_cat%d",c),"All Pdfs",category,mypdfs);
 
+      if(isFlashgg_==1){
+	 category.SetName(Form("pdfindex_%s_%s",flashggCats_[c].c_str(),ext.c_str()) );
+	 multipdf.SetName(Form("CMS_hgg_%s_%s_bkgshape",flashggCats_[c].c_str(),ext.c_str()));
+	 norm.SetName( Form("CMS_hgg_%s_%s_bkgshape_norm",catname.c_str(),ext.c_str()) );
+	 norm.setVal(data[c]->sumEntries());
+	 norm.setRange(0,3*data[c]->sumEntries());
+      }
+      
       int bestFitPdfIndex = getBestFitFunction(&multipdf,data[c],&category,1);
       category.setIndex(bestFitPdfIndex);
       std::cout << "[INFO] Created MultiPdf " << multipdf.GetName() << ", in Category " << c << " with a total of " << category.numTypes() << " pdfs"<< std::endl;
@@ -811,6 +824,11 @@ void BkgMultiModelFitAllOrders(TString OutputFileName, std::string jsonForEnvelo
       wBias->import(category);
       wBias->import(norm);
       wBias->import(multipdf);
+      wBias->import(*data[c]);
+      if(isFlashgg_==1 && _fitStrategy == 1){
+	 RooDataHist dataBinned(Form("roohist_data_mass_%s",flashggCats_[c].c_str()),"data",*mgg,*data[c]);
+	 wBias->import(dataBinned);
+      }
       
    }
    
@@ -853,8 +871,9 @@ int main(int argc, char* argv[]){
    int isFlashgg_ =1;    int FitStrategy_ =2;
    string flashggCatsStr_;
    vector<string> flashggCats_;
-    bool isData_ =0;     bool isbbggLimits_ =0;
-
+   bool isData_ =0;     bool isbbggLimits_ =0;
+   std::string jsonForEnvelope_ = "";
+   
    po::options_description desc("Allowed options");
      desc.add_options()
      ("help,h",                                                                                  "Show help")
@@ -873,6 +892,7 @@ int main(int argc, char* argv[]){
      ("isbbggLimits",  po::value<bool>(&isbbggLimits_)->default_value(0),              "Use bbggLimit output ")
      ("isData",  po::value<bool>(&isData_)->default_value(0),              "Use Data not MC ")
      ("flashggCats,f", po::value<string>(&flashggCatsStr_)->default_value("UntaggedTag_0,UntaggedTag_1,UntaggedTag_2,UntaggedTag_3,UntaggedTag_4,VBFTag_0,VBFTag_1,VBFTag_2,TTHHadronicTag,TTHLeptonicTag,VHHadronicTag,VHTightTag,VHLooseTag,VHEtTag"),       "Flashgg category names to consider")
+     ("jsonForEnvelope", po::value<string>(&jsonForEnvelope_)->default_value(""),       "Json file for envelope")		     
      ("year", po::value<int>(&year_)->default_value(2016),       "Dataset year")
      ("verbose,v",                                                               "Run with more output")
 		     ;
@@ -883,7 +903,9 @@ int main(int argc, char* argv[]){
      if (vm.count("is2011")) is2011=true;
    if (vm.count("unblind")) BLIND=false;
      saveMultiPdf = vm.count("saveMultiPdf");
-
+   bool isjsonForEnvelope = false;
+   if (vm.count("jsonForEnvelope")) isjsonForEnvelope=true;
+   
      if (vm.count("verbose")) verbose=true;
      if (vm.count("runFtestCheckWithToys")) runFtestCheckWithToys=true;
 
@@ -1214,14 +1236,14 @@ int main(int argc, char* argv[]){
 	 choices_vec2.push_back(choices2);
       }
    }
-   std::string jsonForEnvelop = "";
+
    
    if (saveMultiPdf){
-      BkgMultiModelFitAllOrders(outfilename, jsonForEnvelop,inWS,
+      BkgMultiModelFitAllOrders(outfilename, jsonForEnvelope_,inWS,
 				ncats, choices_vec, choices_vec2,
 				functionClasses, namingMap,
 				FitStrategy_,isFlashgg_,isData_,isbbggLimits_,
-				flashggCats_);
+				flashggCats_, ext);
    }
 
    return 0;
